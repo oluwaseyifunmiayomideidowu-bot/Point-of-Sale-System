@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>
-      Inventory — Vendly
+      Products — Vendly
     </title>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="admin.css">
@@ -13,7 +13,7 @@
     <div class="admin">
       <aside class="side">
         <a class="side-brand" href="dashboard.html">
-          <img src="vendly-logo.jpeg" alt="Vendly logo">
+          <img src="vendly-logo.png" alt="Vendly logo">
           <span>
             vendly
           </span>
@@ -44,13 +44,13 @@
           <h6>
             CATALOGUE
           </h6>
-          <a href="products.html">
+          <a class="active" href="products.html">
             □　Products
             <em>
               24
             </em>
           </a>
-          <a class="active" href="inventory.html">
+          <a href="inventory.html">
             ⌁　Inventory
             <em class="warn">
               3
@@ -91,7 +91,7 @@
           <span class="crumb">
             Catalogue /
             <b>
-              Inventory
+              Products
             </b>
           </span>
           <span class="right">
@@ -108,67 +108,21 @@
                 CATALOGUE
               </p>
               <h1>
-                Inventory
+                Products
               </h1>
               <p>
-                Keep every shelf ready for the next sale.
+                Manage what you sell and how it performs.
               </p>
             </div>
             <button class="button">
-              Adjust stock ±
+              Add product +
             </button>
-          </div>
-          <div class="metrics">
-            <article class="metric">
-              <small>
-                Stock value
-              </small>
-              <strong>
-                ₦1.84m
-              </strong>
-              <em>
-                Across 24 products
-              </em>
-            </article>
-            <article class="metric">
-              <small>
-                Healthy stock
-              </small>
-              <strong>
-                18
-              </strong>
-              <em>
-                75% of catalogue
-              </em>
-            </article>
-            <article class="metric alert">
-              <small>
-                Low stock
-              </small>
-              <strong>
-                3
-              </strong>
-              <em>
-                Requires reorder
-              </em>
-            </article>
-            <article class="metric">
-              <small>
-                Out of stock
-              </small>
-              <strong>
-                1
-              </strong>
-              <em>
-                Unavailable to sell
-              </em>
-            </article>
           </div>
           <div class="panel data-panel">
             <div class="filters">
-              <input placeholder="⌕  Search inventory">
+              <input placeholder="⌕  Search product or SKU">
               <button>
-                All suppliers ˅
+                All categories ˅
               </button>
               <button>
                 Stock status ˅
@@ -181,19 +135,19 @@
                     PRODUCT
                   </th>
                   <th>
-                    CURRENT STOCK
+                    CATEGORY
                   </th>
                   <th>
-                    REORDER LEVEL
+                    COST
                   </th>
                   <th>
-                    SUPPLIER
+                    SELLING PRICE
+                  </th>
+                  <th>
+                    STOCK
                   </th>
                   <th>
                     STATUS
-                  </th>
-                  <th>
-                    LAST UPDATED
                   </th>
                 </tr>
               </thead>
@@ -201,28 +155,55 @@
                 <tr>
                   <td class="item">
                     <span class="thumb">
-                      🧻
+                      ☕
                     </span>
-                    Soft Touch Tissue
+                    Lavazza Qualità Rossa
+                  </td>
+                  <td>
+                    Beverages
+                  </td>
+                  <td>
+                    ₦6,200
                   </td>
                   <td>
                     <b>
-                      3 units
+                      ₦8,500
                     </b>
                   </td>
                   <td>
-                    10 units
+                    18
                   </td>
                   <td>
-                    Clean Haus
-                  </td>
-                  <td>
-                    <span class="tag low">
-                      Low stock
+                    <span class="tag good">
+                      In stock
                     </span>
                   </td>
+                </tr>
+                <tr>
+                  <td class="item">
+                    <span class="thumb">
+                      🍊
+                    </span>
+                    Fresh Orange Juice
+                  </td>
                   <td>
-                    Today, 09:42
+                    Beverages
+                  </td>
+                  <td>
+                    ₦1,900
+                  </td>
+                  <td>
+                    <b>
+                      ₦3,200
+                    </b>
+                  </td>
+                  <td>
+                    9
+                  </td>
+                  <td>
+                    <span class="tag good">
+                      In stock
+                    </span>
                   </td>
                 </tr>
                 <tr>
@@ -233,23 +214,50 @@
                     Sourdough Loaf
                   </td>
                   <td>
+                    Bakery
+                  </td>
+                  <td>
+                    ₦1,450
+                  </td>
+                  <td>
                     <b>
-                      4 units
+                      ₦2,800
                     </b>
                   </td>
                   <td>
-                    8 units
-                  </td>
-                  <td>
-                    The Flour Room
+                    4
                   </td>
                   <td>
                     <span class="tag low">
                       Low stock
                     </span>
                   </td>
+                </tr>
+                <tr>
+                  <td class="item">
+                    <span class="thumb">
+                      🧻
+                    </span>
+                    Soft Touch Tissue
+                  </td>
                   <td>
-                    Today, 08:05
+                    Household
+                  </td>
+                  <td>
+                    ₦950
+                  </td>
+                  <td>
+                    <b>
+                      ₦1,800
+                    </b>
+                  </td>
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    <span class="tag low">
+                      Low stock
+                    </span>
                   </td>
                 </tr>
                 <tr>
@@ -260,23 +268,23 @@
                     Farmhouse Milk 1L
                   </td>
                   <td>
+                    Dairy & Eggs
+                  </td>
+                  <td>
+                    ₦1,500
+                  </td>
+                  <td>
                     <b>
-                      0 units
+                      ₦2,500
                     </b>
                   </td>
                   <td>
-                    6 units
-                  </td>
-                  <td>
-                    Farmhouse
+                    0
                   </td>
                   <td>
                     <span class="tag out">
                       Out of stock
                     </span>
-                  </td>
-                  <td>
-                    Yesterday, 17:42
                   </td>
                 </tr>
               </tbody>
