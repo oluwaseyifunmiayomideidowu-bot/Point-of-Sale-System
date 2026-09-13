@@ -44,7 +44,7 @@
         </footer>
       </section>
       <section class="login-form-panel">
-        <form class="login-form" action="dashboard.html">
+        <form class="login-form" id="loginForm" novalidate>
           <p class="eyebrow">
             WELCOME BACK
           </p>
@@ -52,18 +52,15 @@
             Sign in to your shop.
           </h2>
           <p class="intro">
-            Enter your details to continue to Buka Market.
+            Enter your username and password to continue to Buka Market.
           </p>
-          <label>
-            Email address
-            <input name="email" type="email" placeholder="you@business.com" required>
-          </label>
+          <label>Username<input name="username" type="text" placeholder="Enter your username" autocomplete="username" required></label>
           <label>
             Password
             <a href="#">
               Forgot password?
             </a>
-            <input name="password" type="password" placeholder="Your password" required>
+            <input name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
           </label>
           <label class="remember">
             <input type="checkbox">
@@ -81,8 +78,15 @@
               Create your workspace
             </a>
           </p>
+          <aside class="demo-accounts">
+            <strong>Demo access</strong>
+            <span><b>Administrator</b> · adele.admin / vendlyadmin</span>
+            <span><b>Manager</b> · musa.manager / vendlymanager</span>
+            <span><b>Cashier</b> · chi.cashier / vendlycashier</span>
+          </aside>
         </form>
       </section>
     </main>
+    <script src="auth.js"></script>
   </body>
 </html>

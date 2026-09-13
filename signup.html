@@ -68,22 +68,27 @@
         </div>
       </section>
       <form class="signup-form" action="dashboard.html">
-        <label>
-          Business name
-          <input placeholder="e.g. Buka Market" required>
-        </label>
-        <label>
-          Work email
-          <input type="email" placeholder="you@business.com" required>
-        </label>
-        <label>
-          Phone number
-          <input placeholder="+234 800 000 0000">
-        </label>
-        <label>
-          Create password
-          <input type="password" placeholder="At least 8 characters" required>
-        </label>
+        <div class="signup-form-header">
+          <span class="form-step">01</span>
+          <div>
+            <strong>Business owner details</strong>
+            <small>This will be the first administrator account.</small>
+          </div>
+        </div>
+        <div class="signup-fields">
+          <label>Business name<input placeholder="e.g. Buka Market" required></label>
+          <div class="form-row">
+            <label>First name<input placeholder="Adele" required></label>
+            <label>Last name<input placeholder="Okafor" required></label>
+          </div>
+          <label>Username<input placeholder="e.g. adele.admin" required></label>
+          <label>Work email<input type="email" placeholder="you@business.com" required></label>
+          <label>Phone number<input placeholder="+234 800 000 0000"></label>
+          <div class="form-row">
+            <label>Create password<input type="password" placeholder="At least 8 characters" required></label>
+            <label>Confirm password<input type="password" placeholder="Re-enter password" required></label>
+          </div>
+        </div>
         <button class="btn ink wide">
           Create workspace
           <span>
