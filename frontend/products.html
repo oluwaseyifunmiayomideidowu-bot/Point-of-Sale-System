@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="admin.css">
   </head>
-  <body>
+  <body data-role="admin">
     <div class="admin">
       <aside class="side">
         <a class="side-brand" href="dashboard.html">
@@ -114,7 +114,7 @@
                 Manage what you sell and how it performs.
               </p>
             </div>
-            <button class="button">
+            <button class="button" data-role-access="admin,manager" data-open-modal="#add-product">
               Add product +
             </button>
           </div>
@@ -151,7 +151,7 @@
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="products-table-body">
                 <tr>
                   <td class="item">
                     <span class="thumb">
@@ -293,5 +293,26 @@
         </section>
       </main>
     </div>
+    <section class="modal-overlay" id="add-product" aria-modal="true" role="dialog" aria-labelledby="add-product-title">
+      <form class="form-modal" data-add-form data-table-target="#products-table-body" data-entity="Product">
+        <header class="modal-head"><h2 id="add-product-title">Add product</h2><button class="modal-close" type="button" data-close-modal aria-label="Close">×</button></header>
+        <div class="modal-body">
+          <div class="form-alert" role="alert"></div>
+          <div class="form-grid">
+            <label class="form-field full">Name <span class="required-mark">*</span><input name="name" minlength="2" maxlength="100" required><span class="field-error"></span></label>
+            <label class="form-field">Category <span class="required-mark">*</span><select name="category" required><option value="">Select category</option><option value="Beverages">Beverages</option><option value="Bakery">Bakery</option><option value="Pantry">Pantry</option></select><span class="field-error"></span></label>
+            <label class="form-field">Supplier <span class="required-mark">*</span><select name="supplier" required><option value="">Select supplier</option><option value="Vento Foods">Vento Foods</option><option value="The Flour Room">The Flour Room</option></select><span class="field-error"></span></label>
+            <label class="form-field">Cost price <span class="required-mark">*</span><input name="cost" type="number" min="0" step=".01" required><span class="field-error"></span></label>
+            <label class="form-field">Selling price <span class="required-mark">*</span><input name="price" type="number" min="0" step=".01" required><span class="field-error"></span></label>
+            <label class="form-field">Quantity <span class="required-mark">*</span><input name="quantity" type="number" min="0" step="1" required><span class="field-error"></span></label>
+            <label class="form-field">Reorder level <span class="required-mark">*</span><input name="reorder" type="number" min="0" step="1" value="5" required><span class="field-error"></span></label>
+            <label class="form-field full">Status <span class="required-mark">*</span><select name="status" required><option value="Active" selected>Active</option><option value="Inactive">Inactive</option></select><span class="field-error"></span></label>
+          </div>
+        </div>
+        <footer class="modal-foot"><button class="button ghost" type="button" data-close-modal>Cancel</button><div class="modal-actions"><button class="button" type="submit"><span class="save-label">Save product</span><span class="saving-spinner"></span></button></div></footer>
+      </form>
+    </section>
+    <div class="toast" role="status"></div>
+    <script src="add-modals.js"></script>
   </body>
 </html>

@@ -14,15 +14,15 @@
   <body class="login-page">
     <main class="auth-layout">
       <section class="login-brand-panel">
-        <a class="brand" href="index.html">
+        <a class="login-brand" href="index.html" aria-label="Vendly home">
           <img src="vendly-logo.png" alt="Vendly logo">
-          
+          <span>vendly</span>
         </a>
         <div class="login-message">
-          <p>
+          <p class="login-kicker">
             RETAIL, REFINED
           </p>
-          <h1>
+          <h1 class="login-display">
             Built for the
             <br>
             <em>
@@ -30,11 +30,11 @@
             </em>
             of retail.
           </h1>
-          <span>
+          <span class="login-copy">
             Sell confidently, manage thoughtfully, and keep every detail close.
           </span>
         </div>
-        <footer>
+        <footer class="login-footer">
           © 2026 Vendly
           <span>
             Built in Lagos
@@ -52,15 +52,15 @@
           <p class="intro">
             Enter your username and password to continue to Buka Market.
           </p>
-          <label>Username<input name="username" type="text" placeholder="Enter your username" autocomplete="username" required></label>
-          <label>
-            Password
-            <a href="#">
+          <p class="login-error" id="loginError" role="alert" aria-live="polite"></p>
+          <label class="login-field">Username<input name="username" type="text" placeholder="Enter your username" autocomplete="username" required></label>
+          <label class="login-field login-password-field">
+            <span>Password <a href="#">
               Forgot password?
-            </a>
-            <input name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+            </a></span>
+            <span class="password-control"><input name="password" id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required><button type="button" class="password-toggle" aria-controls="loginPassword" aria-label="Show password">Show</button></span>
           </label>
-          <label class="remember">
+          <label class="remember login-remember">
             <input type="checkbox">
             Keep me signed in
           </label>
