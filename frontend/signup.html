@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-      Create workspace — Vendly
+      Create account — Vendly
     </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
   </head>
   <body class="signup-page">
     <header class="signup-header">
-      <a class="brand dark" href="index.html">
+      <a class="brand dark" href="signin.html">
         <img src="vendly-logo.png" alt="Vendly logo">
         <span>
           vendly
@@ -21,7 +21,7 @@
       </a>
       <span>
         Already have a workspace?
-        <a href="index.html">
+        <a href="signin.html">
           Sign in
         </a>
       </span>
@@ -29,68 +29,89 @@
     <main class="signup-main">
       <section>
         <p class="eyebrow">
-          CREATE YOUR WORKSPACE
+          CREATE YOUR ACCOUNT
         </p>
         <h1>
-          Let’s get your shop
+          Join your retail team
           <br>
-          set up
+          and get
           <em>
-            properly.
+            selling.
           </em>
         </h1>
         <p class="intro">
-          A calm, capable retail workspace is a few details away.
+          Create a new Vendly account with the access level your team needs.
         </p>
-        <div class="steps">
-          <b>
-            1
-          </b>
-          <span>
-            <strong>
-              Business details
-            </strong>
-            <small>
-              Tell us about your store
-            </small>
-          </span>
-          <b class="muted">
-            2
-          </b>
-          <span>
-            <strong>
-              Make it yours
-            </strong>
-            <small>
-              Branding and tax settings
-            </small>
-          </span>
-        </div>
       </section>
       <form class="signup-form" action="dashboard.html">
         <div class="signup-form-header">
-          <span class="form-step">01</span>
+          <span class="form-step">
+            01
+          </span>
           <div>
-            <strong>Business owner details</strong>
-            <small>This will be the first administrator account.</small>
+            <strong>
+          New user details
+            </strong>
+            <small>
+          Complete the fields below to create an account.
+            </small>
           </div>
         </div>
         <div class="signup-fields">
-          <label>Business name<input placeholder="e.g. Buka Market" required></label>
           <div class="form-row">
-            <label>First name<input placeholder="Adele" required></label>
-            <label>Last name<input placeholder="Okafor" required></label>
+            <label>
+            First name
+            <input name="firstName" autocomplete="given-name" placeholder="Adele" required>
+            </label>
+            <label>
+            Last name
+            <input name="lastName" autocomplete="family-name" placeholder="Okafor" required>
+            </label>
           </div>
-          <label>Username<input placeholder="e.g. adele.admin" required></label>
-          <label>Work email<input type="email" placeholder="you@business.com" required></label>
-          <label>Phone number<input placeholder="+234 800 000 0000"></label>
+          <label>
+          Username
+          <input name="userName" autocomplete="username" placeholder="e.g. adele.admin" required>
+          </label>
+          <label>
+          Email
+          <input name="email" type="email" autocomplete="email" placeholder="you@business.com" required>
+          </label>
+          <label>
+          Phone number
+          <input name="phone" type="tel" autocomplete="tel" placeholder="+234 800 000 0000" required>
+          </label>
           <div class="form-row">
-            <label>Create password<input type="password" placeholder="At least 8 characters" required></label>
-            <label>Confirm password<input type="password" placeholder="Re-enter password" required></label>
+            <label>
+              Create password
+              <input name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" required>
+            </label>
+            <label>
+              Confirm password
+              <input name="confirmPassword" type="password" autocomplete="new-password" placeholder="Re-enter password" required>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>
+              Role
+              <select name="role" required>
+                <option value="" selected disabled>Select a role</option>
+                <option value="Administrator">Admin</option>
+                <option value="Manager">Manager</option>
+                <option value="Cashier">Cashier</option>
+                <option value="User">User</option>
+              </select>
+            </label>
+            <label>
+              Status
+              <select name="status" required>
+                <option value="Active" selected>Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </label>
           </div>
         </div>
         <button class="btn ink wide">
-          Create workspace
+          Create account
           <span>
             →
           </span>
