@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Tester</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+            font-family: monospace;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #response {
+            background: #f4f4f4;
+            padding: 15px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            min-height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>API Tester</h1>
+
+    <form id="apiForm">
+
+        <!-- API URL -->
+        <label for="apiUrl">API URL</label>
+        <input
+            type="text"
+            id="apiUrl"
+            placeholder="http://localhost/your-project/backend/api/example.php"
+        >
+
+        <!-- HTTP Method -->
+        <label for="method">Method</label>
+        <select id="method">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+        </select>
+
+        <!-- Request Body -->
+        <label for="requestBody">JSON Data</label>
+        <textarea
+            id="requestBody"
+            placeholder='{
+    "name": "Example",
+    "quantity": 10
+}'></textarea>
+
+        <!-- Send Button -->
+        <button type="submit" id="sendButton">Send Request</button>
+
+    </form>
+
+    <!-- Response -->
+    <h2>Response</h2>
+
+    <pre id="response">Response will appear here...</pre>
+
+
+    <script>
+
+        const apiForm = document.getElementById("apiForm");
+
+        const apiUrl = document.getElementById("apiUrl");
+        const method = document.getElementById("method");
+        const requestBody = document.getElementById("requestBody");
+        const responseBox = document.getElementById("response");
+
+
+        apiForm.addEventListener("submit", async (event) => {
+
+            // Prevent the form's normal submission
+            event.preventDefault();
+
+
+            const url = apiUrl.value.trim();
+            const selectedMethod = method.value;
+            const bodyText = requestBody.value.trim();
+
+
+            // Make sure URL was provided
+            if (!url) {
+                responseBox.textContent = "Please enter an API URL.";
+                return;
+            }
+
+
+            // Request options
+            const options = {
+                method: selectedMethod,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            };
+
+
+            // Add body only when necessary
+            if (
+                selectedMethod === "POST" ||
+                selectedMethod === "PUT" ||
+                selectedMethod === "PATCH"
+            ) {
+
+                if (bodyText) {
+
+                    try {
+
+                        // Check if the JSON is valid
+                        JSON.parse(bodyText);
+
+                    } catch (error) {
+
+                        responseBox.textContent =
+                            "Invalid JSON:\n\n" + error.message;
+
+                        return;
+                    }
+
+                    options.body = bodyText;
+                }
+            }
+
+
+            responseBox.textContent = "Sending request...";
+
+
+            try {
+
+                const response = await fetch(url,{ ...options, credentials: "include"});
+
+                const contentType =
+                    response.headers.get("content-type");
+
+
+                let data;
+
+
+                if (
+                    contentType &&
+                    contentType.includes("application/json")
+                ) {
+
+                    data = await response.json();
+
+                    responseBox.textContent =
+                        JSON.stringify(data, null, 4);
+
+                } else {
+
+                    data = await response.text();
+
+                    responseBox.textContent = data;
+                }
+
+
+                console.log("HTTP Status:", response.status);
+                console.log("Response:", data);
+
+
+            } catch (error) {
+
+                responseBox.textContent =
+                    "Request failed:\n\n" + error.message;
+
+                console.error(error);
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

@@ -138,6 +138,9 @@
                     CATEGORY
                   </th>
                   <th>
+                    SKU
+                  </th>
+                  <th>
                     COST
                   </th>
                   <th>
@@ -148,6 +151,12 @@
                   </th>
                   <th>
                     STATUS
+                  </th>
+                  <th>
+                    STOCK STATUS
+                  </th>
+                  <th>
+                    CREATED AT
                   </th>
                 </tr>
               </thead>
@@ -294,19 +303,20 @@
       </main>
     </div>
     <section class="modal-overlay" id="add-product" aria-modal="true" role="dialog" aria-labelledby="add-product-title">
-      <form class="form-modal" data-add-form data-table-target="#products-table-body" data-entity="Product">
+      <form class="form-modal" id="productForm" data-add-form data-table-target="#products-table-body" data-entity="Product">
         <header class="modal-head"><h2 id="add-product-title">Add product</h2><button class="modal-close" type="button" data-close-modal aria-label="Close">×</button></header>
         <div class="modal-body">
           <div class="form-alert" role="alert"></div>
           <div class="form-grid">
-            <label class="form-field full">Name <span class="required-mark">*</span><input name="name" minlength="2" maxlength="100" required><span class="field-error"></span></label>
-            <label class="form-field">Category <span class="required-mark">*</span><select name="category" required><option value="">Select category</option><option value="Beverages">Beverages</option><option value="Bakery">Bakery</option><option value="Pantry">Pantry</option></select><span class="field-error"></span></label>
-            <label class="form-field">Supplier <span class="required-mark">*</span><select name="supplier" required><option value="">Select supplier</option><option value="Vento Foods">Vento Foods</option><option value="The Flour Room">The Flour Room</option></select><span class="field-error"></span></label>
-            <label class="form-field">Cost price <span class="required-mark">*</span><input name="cost" type="number" min="0" step=".01" required><span class="field-error"></span></label>
-            <label class="form-field">Selling price <span class="required-mark">*</span><input name="price" type="number" min="0" step=".01" required><span class="field-error"></span></label>
-            <label class="form-field">Quantity <span class="required-mark">*</span><input name="quantity" type="number" min="0" step="1" required><span class="field-error"></span></label>
-            <label class="form-field">Reorder level <span class="required-mark">*</span><input name="reorder" type="number" min="0" step="1" value="5" required><span class="field-error"></span></label>
-            <label class="form-field full">Status <span class="required-mark">*</span><select name="status" required><option value="Active" selected>Active</option><option value="Inactive">Inactive</option></select><span class="field-error"></span></label>
+            <label class="form-field full" >Name <span class="required-mark">*</span><input name="name" id="name" minlength="2" maxlength="100" required><span class="field-error"></span></label>
+            <label class="form-field" >Category <span class="required-mark">*</span><select name="category" id="category" required><option value="">Select category</option></select><span class="field-error"></span></label>
+            <label class="form-field" >Supplier <span class="required-mark">*</span><select name="supplier" id="supplier"  required><option value="">Select supplier</option></select><span class="field-error"></span></label>
+            <label class="form-field" >Cost price <span class="required-mark">*</span><input name="cost" type="number" id="costPrice" min="0" step=".01" required><span class="field-error"></span></label>
+            <label class="form-field" >Selling price <span class="required-mark">*</span><input name="price" id="sellingPrice" type="number" min="0" step=".01" required><span class="field-error"></span></label>
+            <label class="form-field" >Quantity <span class="required-mark">*</span><input name="quantity" type="number" id="quantity"min="0" step="1" required><span class="field-error"></span></label>
+            <label class="form-field">Reorder level <span class="required-mark">*</span><input name="reorder" type="number"  id="reorderLevel" min="0" step="1" value="5" required><span class="field-error"></span></label>
+            <label class="form-field full" >Status <span class="required-mark">*</span><select name="status" id="status" required><option value="Active" selected>Active</option><option value="Inactive">Inactive</option></select><span class="field-error"></span></label>
+            <label class="form-field full" >Image <span class="required-mark">*</span><input name="image" type = "file" id="image" accept="image/*" required><span class="field-error"></span></label>
           </div>
         </div>
         <footer class="modal-foot"><button class="button ghost" type="button" data-close-modal>Cancel</button><div class="modal-actions"><button class="button" type="submit"><span class="save-label">Save product</span><span class="saving-spinner"></span></button></div></footer>

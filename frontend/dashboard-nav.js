@@ -1,6 +1,13 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const sidebar = document.querySelector('.side');
 const sidebarOverlay = document.querySelector('.sidebar-overlay');
+const userRoleText = document.getElementById("user-role");
+const userNameText = document.getElementById("user-name");
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+userRoleText.textContent = user.role;
+userNameText.textContent = user.first_name;
 
 function closeSidebar() {
   sidebar.classList.remove('is-open');

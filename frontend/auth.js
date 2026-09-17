@@ -12,36 +12,78 @@ if (passwordToggle && loginPassword) {
   });
 }
 
-if (loginForm) {
-  loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+// if (loginForm) {
+//   loginForm.addEventListener('submit', (event) => {
+//     event.preventDefault();
 
-    const formData = new FormData(loginForm);
-    const accounts = {
-      'adele.admin': {
-        password: 'vendlyadmin',
-        destination: 'dashboard.html',
-      },
-      'musa.manager': {
-        password: 'vendlymanager',
-        destination: 'manager-dashboard.html',
-      },
-      'chi.cashier': {
-        password: 'vendlycashier',
-        destination: 'cashier-dashboard.html',
-      },
-    };
+//     const formData = new FormData(loginForm);
+//     const accounts = {
+//       'adele.admin': {
+//         password: 'vendlyadmin',
+//         destination: 'dashboard.html',
+//       },
+//       'musa.manager': {
+//         password: 'vendlymanager',
+//         destination: 'manager-dashboard.html',
+//       },
+//       'chi.cashier': {
+//         password: 'vendlycashier',
+//         destination: 'cashier-dashboard.html',
+//       },
+//     };
 
-    const account = accounts[formData.get('username').trim().toLowerCase()];
+//     const account = accounts[formData.get('username').trim().toLowerCase()];
 
-    if (!account || account.password !== formData.get('password')) {
-      loginError.textContent = 'The username or password is incorrect. Check your details and try again.';
-      loginError.classList.add('is-visible');
-      return;
-    }
+//     if (!account || account.password !== formData.get('password')) {
+//       loginError.textContent = 'The username or password is incorrect. Check your details and try again.';
+//       loginError.classList.add('is-visible');
+//       return;
+//     }
 
-    loginError.textContent = '';
-    loginError.classList.remove('is-visible');
-    window.location.href = account.destination;
-  });
+//     loginError.textContent = '';
+//     loginError.classList.remove('is-visible');
+//     window.location.href = account.destination;
+//   });
+// }
+
+if (loginForm){
+  loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(loginForm);
+
+      const login = formData.get('username').trim();
+      const password = formData.get('password');
+
+      try {
+        const response = await fetch('http://localhost/point_of_sale_system/backend/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            login,
+            password
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          loginError.textContent = data.message;
+          loginError.classList.add('is-visible');
+          console.log(username)
+          return;
+        }
+
+        const {id, first_name, last_name, username, role} = data.data
+
+        localStorage.setItem("user",JSON.stringify({id, first_name, last_name, username, role}));
+        window.location.href = "dashboard.html";
+
+      } catch (error) {
+        loginError.textContent = 'Unable to connect to the server. Please try again.';
+        loginError.classList.add('is-visible');
+      }
+    });
 }

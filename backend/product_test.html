@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product API Tester</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 11px;
+            font-size: 15px;
+        }
+
+        input,
+        select {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .response {
+            margin-top: 25px;
+        }
+
+        pre {
+            background: #111827;
+            color: #e5e7eb;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Product API Tester</h1>
+
+    <form id="productForm">
+
+        <div class="field">
+            <label for="categoryName">Category Name</label>
+            <input
+                type="text"
+                id="categoryName"
+                value="Electronics"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="supplierName">Supplier Name</label>
+            <input
+                type="text"
+                id="supplierName"
+                value="ABC Suppliers"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="name">Product Name</label>
+            <input
+                type="text"
+                id="name"
+                value="Laptop"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="costPrice">Cost Price</label>
+            <input
+                type="number"
+                id="costPrice"
+                value="350000"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="sellingPrice">Selling Price</label>
+            <input
+                type="number"
+                id="sellingPrice"
+                value="420000"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="quantity">Quantity</label>
+            <input
+                type="number"
+                id="quantity"
+                value="15"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="reorderLevel">Reorder Level</label>
+            <input
+                type="number"
+                id="reorderLevel"
+                value="5"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="status">Status</label>
+
+            <select id="status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="image">Product Image</label>
+
+            <input
+                type="file"
+                id="image"
+                accept="image/*"
+                required
+            >
+        </div>
+
+        <button type="submit">
+            Send Product
+        </button>
+
+    </form>
+
+    <div class="response">
+
+        <h2>Response</h2>
+
+        <pre id="responseOutput">Waiting for request...</pre>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const productForm = document.getElementById("productForm");
+const responseOutput = document.getElementById("responseOutput");
+
+
+productForm.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append(
+        "categoryName",
+        document.getElementById("categoryName").value
+    );
+
+    formData.append(
+        "supplierName",
+        document.getElementById("supplierName").value
+    );
+
+    formData.append(
+        "productName",
+        document.getElementById("name").value
+    );
+
+    formData.append(
+        "costPrice",
+        document.getElementById("costPrice").value
+    );
+
+    formData.append(
+        "sellingPrice",
+        document.getElementById("sellingPrice").value
+    );
+
+    formData.append(
+        "quantity",
+        document.getElementById("quantity").value
+    );
+
+    formData.append(
+        "reorderLevel",
+        document.getElementById("reorderLevel").value
+    );
+
+    formData.append(
+        "status",
+        document.getElementById("status").value
+    );
+
+
+    const imageFile = document.getElementById("image").files[0];
+
+    if (imageFile) {
+        formData.append("image", imageFile);
+    }
+
+
+    responseOutput.textContent = "Sending request...";
+
+
+    try {
+
+        const response = await fetch(
+            "/point_of_sale_system/backend/api/createProduct",
+            {
+                method: "POST",
+
+                body: formData,
+
+                credentials: "include"
+            }
+        );
+
+
+        const text = await response.text();
+
+        try {
+
+            const data = JSON.parse(text);
+
+            responseOutput.textContent =
+                JSON.stringify(data, null, 2);
+
+        } catch {
+
+            responseOutput.textContent = text;
+
+        }
+
+    } catch (error) {
+
+        responseOutput.textContent =
+            "Request failed:\n\n" + error.message;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,3 +1,150 @@
+const productTableBody = document.getElementById("products-table-body");
+
+async function getProducts() {
+  try {
+    const response = await fetch("http://localhost/point_of_sale_system/backend/api/products", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    const products = result.data;
+
+    productTableBody.innerHTML = "";
+
+    products.forEach(product => {
+      const row = document.createElement("tr");
+
+      row.id = `product-${product.id}`
+      let stockClass;
+      let stockText;
+
+      if (product.quantity === 0) {
+        stockClass = "out";
+        stockText = "Out Of Stock"
+      } else if (product.quantity <= product.reorder_level) {
+        stockClass = "low";
+        stockText = "Almost Out"
+      } else {
+        stockClass = "good";
+        stockText = "In Stock"
+      }
+
+      row.innerHTML = `
+        <td class="item">
+          <span class="thumb">
+            <img src="../..//point_of_sale_system/backend/${product.image}" alt="">
+          </span>
+          ${product.name}
+        </td>
+        <td>${product.category_name}</td>
+        <td>${product.sku}</td>
+        <td>₦${Number(product.cost_price).toLocaleString()}</td>
+        <td>₦${Number(product.selling_price).toLocaleString()}</td>
+        <td>${product.quantity}</td>
+        <td>${product.status}</td>
+        <td>
+          <div class="tag ${stockClass}">
+            ${stockText}
+          </div>
+        </td>
+        <td>${formatDate(product.created_at)}</td>
+      `;
+
+      productTableBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Error getting products:", error);
+
+    productTableBody.innerHTML = `
+      <tr>
+        <td colspan="5">Unable to load products.</td>
+      </tr>
+    `;
+  }
+}
+
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString("en-NG", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+}
+
+const purchaseTableBody = document.getElementById("purchaseTableBody");
+
+async function getPurchases() {
+  try {
+    const response = await fetch(
+      "/point_of_sale_system/backend/api/purchases",
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        },
+        credentials: "include"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const purchases = data.data;
+
+    purchaseTableBody.innerHTML = "";
+
+    purchases.forEach(purchase => {
+
+      const row = document.createElement("tr");
+
+      row.id = `purchase-${purchase.id}`;
+
+      row.innerHTML = `
+        <td>${purchase.purchaseNumber}</td>
+        <td>${purchase.supplierName}</td>
+        <td>${purchase.createdBy}</td>
+        <td>₦${Number(purchase.totalAmount).toLocaleString()}</td>
+        <td>${formatDate(purchase.createdAt)}</td>
+        <td>${purchase.status}</td>
+        <td><button>Compelte</button> <button>Cancelled</button></td>
+      `;
+
+      purchaseTableBody.appendChild(row);
+    });
+
+  } catch (error) {
+
+    console.error("Error getting purchases:", error);
+
+    purchaseTableBody.innerHTML = `
+      <tr>
+        <td colspan="7">Unable to load purchases.</td>
+      </tr>
+    `;
+  }
+}
+
+
+getProducts();
+
+getPurchases();
+
+
 const demoRole = document.body.dataset.role || 'admin';
 
 function formatMoney(value) {
@@ -61,6 +208,7 @@ document.querySelectorAll('.form-modal input, .form-modal select, .form-modal te
 });
 
 document.querySelectorAll('[data-add-form]').forEach((form) => {
+    if (form.id === "productForm") return;
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const fields = [...form.querySelectorAll('input, select, textarea')];
@@ -93,6 +241,9 @@ document.querySelectorAll('[data-add-form]').forEach((form) => {
 });
 
 document.querySelectorAll('[data-table-add-form]').forEach((form) => {
+
+  if (form.id === "productForm") return;
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const fields = [...form.querySelectorAll('input, select, textarea')];
@@ -128,3 +279,204 @@ document.querySelectorAll('[data-table-add-form]').forEach((form) => {
     }, 500);
   });
 });
+
+const categorySelect = document.getElementById("category");
+
+async function getCategories() {
+  try {
+    const response = await fetch("/point_of_sale_system/backend/api/categories", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const categories = data.data;
+
+    categories.forEach(category => {
+      const option = document.createElement("option");
+
+      option.id = category.id
+      option.value = category.name;
+      option.textContent = category.name;
+
+      categorySelect.appendChild(option);
+    });
+
+  } catch (error) {
+    console.error("Error getting categories:", error);
+  }
+}
+
+getCategories();
+
+const supplierSelect = document.getElementById("supplier");
+
+async function getSuppliers() {
+  try {
+    const response = await fetch("/point_of_sale_system/backend/api/suppliers", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const suppliers = data.data;
+
+    suppliers.forEach(supplier => {
+      const option = document.createElement("option");
+
+      option.value = supplier.username;
+      option.textContent = supplier.username;
+
+      supplierSelect.appendChild(option);
+    });
+
+  } catch (error) {
+    console.error("Error getting suppliers:", error);
+  }
+}
+
+getSuppliers();
+
+async function updatePurchase(purchaseId, purchaseStatus) {
+  const purchaseData = {
+    id: purchaseId,
+    status: purchaseStatus
+  };
+
+  try {
+    const response = await fetch(
+      "/point_of_sale_system/backend/api/updatePurchase",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify(purchaseData)
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update purchase.");
+    }
+
+    console.log("Purchase updated:", data);
+
+    // Get the updated purchases
+    await getPurchases();
+
+  } catch (error) {
+    console.error("Error updating purchase:", error);
+  }
+}
+
+const productForm = document.getElementById("productForm");
+
+productForm.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+    const formData = new FormData();
+
+    formData.append(
+        "categoryName",
+        document.getElementById("category").value
+    );
+
+    formData.append(
+        "supplierName",
+        document.getElementById("supplier").value
+    );
+
+    formData.append(
+        "productName",
+        document.getElementById("name").value
+    );
+
+    formData.append(
+        "costPrice",
+        document.getElementById("costPrice").value
+    );
+
+    formData.append(
+        "sellingPrice",
+        document.getElementById("sellingPrice").value
+    );
+
+    formData.append(
+        "quantity",
+        document.getElementById("quantity").value
+    );
+
+    formData.append(
+        "reorderLevel",
+        document.getElementById("reorderLevel").value
+    );
+
+    formData.append(
+        "status",
+        document.getElementById("status").value
+    );
+
+
+    const imageFile = document.getElementById("image").files[0];
+
+    if (imageFile) {
+        formData.append("image", imageFile);
+    }
+
+
+    // responseOutput.textContent = "Sending request...";
+
+    try {
+        const response = await fetch(
+            "/point_of_sale_system/backend/api/createProduct",
+            {
+                method: "POST",
+
+                body: formData,
+
+                credentials: "include"
+            }
+        );
+
+        const text = await response.text();
+
+        try {
+
+            const data = JSON.parse(text);
+            getProducts();
+
+            console.log(
+                JSON.stringify(data, null, 2));
+
+        } catch {
+
+            console.log(text);
+
+        }
+
+    } catch (error) {
+
+        console.log(
+          "Request failed:\n\n" + error.message);
+
+    }
+});
+
