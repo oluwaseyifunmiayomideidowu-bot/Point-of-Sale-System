@@ -1,3 +1,91 @@
+const productTableBody = document.getElementById("products-table-body");
+
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString("en-NG", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+}
+
+
+async function getProducts() {
+  try {
+    const response = await fetch("http://localhost/point_of_sale_system/backend/api/products", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    const products = result.data;
+
+    productTableBody.innerHTML = "";
+
+    products.forEach(product => {
+      const row = document.createElement("tr");
+
+      row.id = `product-${product.id}`
+      let stockClass;
+      let stockText;
+
+      if (product.quantity === 0) {
+        stockClass = "out";
+        stockText = "Out Of Stock"
+      } else if (product.quantity <= product.reorder_level) {
+        stockClass = "low";
+        stockText = "Almost Out"
+      } else {
+        stockClass = "good";
+        stockText = "In Stock"
+      }
+
+      row.innerHTML = `
+        <td class="item">
+          <span class="thumb">
+            <img src="../..//point_of_sale_system/backend/${product.image}" alt="">
+          </span>
+          ${product.name}
+        </td>
+        <td>${product.category_name}</td>
+        <td>${product.sku}</td>
+        <td>${product.reorder_level}</td>
+        
+        <td>${product.quantity}</td>
+        <td>${product.status}</td>
+        <td>
+          <div class="tag ${stockClass}">
+            ${stockText}
+          </div>
+        </td>
+        <td>${formatDate(product.created_at)}</td>
+      `;
+
+      productTableBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Error getting products:", error);
+
+    productTableBody.innerHTML = `
+      <tr>
+        <td colspan="5">Unable to load products.</td>
+      </tr>
+    `;
+  }
+}
+
+getProducts();
+
 const inventoryApiUrl = 'http://localhost/point_of_sale_system/backend/api/inventory';
 const inventoryTableBody = document.getElementById('inventory-table-body');
 const inventorySearch = document.getElementById('inventory-search');

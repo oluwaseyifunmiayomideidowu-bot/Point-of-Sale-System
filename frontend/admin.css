@@ -680,7 +680,9 @@ body{
   padding:0 0 11px;
   text-align:left;
   overflow:hidden;
-  transition:box-shadow .15s ease,transform .15s ease,border-color .15s ease
+  transition:box-shadow .15s ease,transform .15s ease,border-color .15s ease;
+  display: flex;
+  flex-direction: column;
 }
 .pos-product:hover{
   box-shadow:0 10px 20px rgba(28,35,49,.08);
@@ -854,6 +856,27 @@ body{
   font:600 10px Inter,Arial,sans-serif;
   cursor:pointer
 }
+  
+  .picture {
+    flex: 1;
+  }
+  
+  .picture-text {
+    width: 100%;
+    height: 30%;
+  }
+  .picture img{
+      width: 100%;
+      height: 100%;
+      object-fit: center;
+      /* display: none; */
+    }
+
+    .cart-monogram img {
+      width: 100%;
+      height: 100%;
+      object-fit: center;
+    }
 .cart-input{
   width:100%;
   height:38px;

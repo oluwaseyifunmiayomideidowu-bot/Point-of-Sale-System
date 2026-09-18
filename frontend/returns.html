@@ -26,16 +26,89 @@
       <section class="signup-form">
         <label>
           Receipt number
-          <input placeholder="e.g. VN-10842">
+          <input id="receiptNumber" type="text" placeholder="e.g. VN-10842">
         </label>
         <label>
           Reason
-          <input placeholder="Why is the item being returned?">
+          <input id="returnReason" type="text" placeholder="Why is the item being returned?">
         </label>
-        <button class="btn copper wide">
+        <button id="findSaleButton" class="btn copper wide" type="button">
           Find sale →
         </button>
       </section>
     </main>
+
+    <script>
+      
+const receiptNumber = document.getElementById("receiptNumber");
+const returnReason = document.getElementById("returnReason");
+const findSaleButton = document.getElementById("findSaleButton");
+
+findSaleButton.addEventListener("click", async () => {
+
+  const saleNumber = receiptNumber.value.trim();
+  const reason = returnReason.value.trim();
+
+
+  if (!saleNumber || !reason) {
+    return;
+  }
+
+
+  const returnData = {
+    saleNumber: saleNumber,
+    reason: reason
+  };
+
+
+  try {
+
+    findSaleButton.disabled = true;
+    findSaleButton.textContent = "Finding sale...";
+
+
+    const response = await fetch(
+      "/point_of_sale_system/backend/api/returns",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+
+        credentials: "include",
+
+        body: JSON.stringify(returnData)
+      }
+    );
+
+
+    const data = await response.json();
+
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Unable to find sale."
+      );
+    }
+
+
+    console.log("Return:", data);
+
+  } catch (error) {
+
+    console.error("Return failed:", error);
+
+  } finally {
+
+    findSaleButton.disabled = false;
+    findSaleButton.textContent = "Find sale →";
+
+  }
+
+});
+
+    </script>
   </body>
 </html>

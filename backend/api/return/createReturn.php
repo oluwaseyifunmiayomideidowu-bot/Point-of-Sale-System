@@ -27,11 +27,11 @@
 
 
 
-    if (!isset($data['saleId']) ||!filter_var($data['saleId'], FILTER_VALIDATE_INT) ||$data['saleId'] <= 0){
-        sendResponse(false, 'Valid sale ID is required', null, 400);
-    }
+    // if (!isset($data['saleId']) ||!filter_var($data['saleId'], FILTER_VALIDATE_INT) ||$data['saleId'] <= 0){
+    //     sendResponse(false, 'Valid sale ID is required', null, 400);
+    // }
 
-    $saleId = (int) $data['saleId'];
+    // $saleId = (int) $data['saleId'];
 
     $saleNumber = $data['saleNumber'];
 
@@ -99,9 +99,9 @@
                 throw new Exception('Invalid return item.');
             }
 
-            if (!isset($item['productId']) || !filter_var($item['productId'], FILTER_VALIDATE_INT) || $item['productId'] <= 0){
-                throw new Exception('Valid product ID is required for every return item.');
-            }
+            // if (!isset($item['productId']) || !filter_var($item['productId'], FILTER_VALIDATE_INT) || $item['productId'] <= 0){
+            //     throw new Exception('Valid product ID is required for every return item.');
+            // }
 
             if (!isset($item['quantity']) || !filter_var($item['quantity'], FILTER_VALIDATE_INT) || $item['quantity'] <= 0){
                 throw new Exception('Return quantity must be a positive integer.');

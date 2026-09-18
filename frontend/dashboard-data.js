@@ -13,6 +13,7 @@ function initials(value) {
 
 function renderDashboard(data) {
   document.getElementById('today-sales-value').textContent = currency(data.today.totalRevenue);
+  document.getElementById('chart-number-revenue').textContent = currency(data.today.totalRevenue);
   document.getElementById('purchases-mtd-value').textContent = `${data.today.totalSales} sales today`;
   document.getElementById('active-products-value').textContent = data.inventory.totalProducts;
   document.getElementById('low-stock-value').textContent = data.inventory.lowStockProducts;

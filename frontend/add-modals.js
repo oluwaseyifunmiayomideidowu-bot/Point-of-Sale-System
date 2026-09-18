@@ -121,8 +121,8 @@ async function getPurchases() {
         <td>₦${Number(purchase.totalAmount).toLocaleString()}</td>
         <td>${formatDate(purchase.createdAt)}</td>
         <td>${purchase.status}</td>
-        <td><button>Compelte</button> <button>Cancelled</button></td>
-      `;
+        `;
+        // <td><button>Compelte</button> <button>Cancelled</button></td>
 
       purchaseTableBody.appendChild(row);
     });
@@ -350,6 +350,112 @@ async function getSuppliers() {
 }
 
 getSuppliers();
+
+const suppliersTableBody =
+  document.getElementById("suppliersTableBody");
+
+  
+
+async function getSuppliersTable() {
+  try {
+    const response = await fetch(
+      "/point_of_sale_system/backend/api/suppliers",
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const suppliers = data.data || [];
+
+    suppliersTableBody.innerHTML = "";
+
+    suppliers.forEach(supplier => {
+
+      const row = document.createElement("tr");
+
+      row.id = `supplier-${supplier.id}`;
+
+      if (supplier.status === "Active") {
+        statusClass = "good";
+      } else {
+        statusClass = "out";
+      }
+
+      row.innerHTML = `
+        <td>${supplier.first_name} ${supplier.last_name}</td>
+        <td>${supplier.username}</td>
+        <td>${supplier.email || "—"}</td>
+        <td>${supplier.phone || "—"}</td>
+        <td class="tag ${statusClass}">${supplier.status || "—"}</td>
+      `;
+
+      suppliersTableBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Error getting suppliers:", error);
+
+    suppliersTableBody.innerHTML = `
+      <tr>
+        <td colspan="3">Unable to load suppliers.</td>
+      </tr>
+    `;
+  }
+}
+
+const productSelect = document.getElementById("product");
+
+async function getProductsSelect() {
+  try {
+    const response = await fetch(
+      "http://localhost/point_of_sale_system/backend/api/products",
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        },
+        credentials: "include"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const products = data.data || [];
+
+    productSelect.innerHTML = `
+      <option value="">Select product</option>
+    `;
+
+    products.forEach(product => {
+      const option = document.createElement("option");
+
+      option.value = product.id;
+      option.textContent = product.name;
+
+      productSelect.appendChild(option);
+    });
+
+  } catch (error) {
+    console.error("Error getting products:", error);
+  }
+}
+
+getProductsSelect();
+
+getSuppliersTable();
 
 async function updatePurchase(purchaseId, purchaseStatus) {
   const purchaseData = {

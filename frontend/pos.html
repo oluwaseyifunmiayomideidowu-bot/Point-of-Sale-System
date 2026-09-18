@@ -118,24 +118,28 @@
           <div class="pos-shell">
             <section>
               <input class="search" id="product-search" type="search" placeholder="Search products or scan a barcode" autocomplete="off">
-              <div class="cats">
+              <div class="cats" id="categoryButtons">
                 <button class="active" type="button" data-category="All">All items</button>
                 <button type="button" data-category="Beverages">Beverages</button>
                 <button type="button" data-category="Pantry">Pantry</button>
                 <button type="button" data-category="Dairy & Eggs">Dairy &amp; Eggs</button>
               </div>
-              <div class="pos-products" id="pos-products" aria-live="polite">
+              <div class="pos-products" id="productsContainer" aria-live="polite">
                 <button class="pos-product">
                   <span class="picture">
                     LR
                   </span>
-                  <strong>
-                    Lavazza Qualità Rossa
-                  </strong>
-                  <small>
-                    ₦8,500
-                  </small>
-                  <span class="product-meta">SKU BEV-001 · 18 in stock</span>
+                  <div class="picture-text">
+
+                    <strong>
+                      Lavazza Qualità Rossa
+                    </strong>
+                    <small>
+                      ₦8,500
+                    </small>
+                    <span class="product-meta">SKU BEV-001 · 18 in stock</span>
+                  </div>
+
                 </button>
                 <button class="pos-product">
                   <span class="picture">

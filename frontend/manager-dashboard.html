@@ -37,18 +37,48 @@
         <section class="page">
           <div class="page-title"><div><p class="eyebrow">GOOD MORNING, MUSA</p><h1>Today’s operations, clear.</h1><p>Watch sales, stock, and team activity across Buka Market.</p></div><a class="button" href="pos.html">Open point of sale <span>→</span></a></div>
           <div class="metrics">
-            <article class="metric"><small>Today’s revenue</small><strong>₦248,400</strong><em>↑ 12.4% <i>vs. yesterday</i></em></article>
-            <article class="metric"><small>Transactions</small><strong>84</strong><em>↑ 8.1% <i>vs. yesterday</i></em></article>
+            <article class="metric"><small>Today’s revenue</small><strong id="today-sales-value">₦00.00</strong><em>↑ 12.4% <i>vs. yesterday</i></em></article>
+            <article class="metric">
+              <small>
+                Purchases (MTD)
+              </small>
+              <strong>
+                <span id="purchases-mtd-value">—</span>
+              </strong>
+              <em>
+                ↓ 4.2%
+                <i>
+                  vs. last month
+                </i>
+              </em>
+            </article>            
             <article class="metric"><small>Team on shift</small><strong>6</strong><em>All registers covered</em></article>
-            <article class="metric alert"><small>Stock actions</small><strong>3</strong><em>Require approval →</em></article>
+            <article class="metric alert"><small>Stock actions</small><strong id="low-stock-value">0</strong><em>Require approval →</em></article>
           </div>
           <div class="dash-grid">
             <article class="panel"><div class="panel-head"><div><h2>Sales performance</h2><p>Sales over the last 7 days</p></div><button class="link-btn">Daily · Monthly</button></div><div class="chart-number">₦1,692,800 <small>+16.8% from last week</small></div><div class="chart"><svg viewBox="0 0 680 170" preserveAspectRatio="none"><path d="M0 150C55 142 72 122 110 129S165 91 206 104S254 94 302 74S347 85 386 63S441 69 475 43S530 56 560 30S620 38 680 12" fill="none" stroke="#b5651d" stroke-width="3"/></svg><div class="days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div></article>
-            <article class="panel"><div class="panel-head"><div><h2>Manager actions</h2><p>Awaiting your attention</p></div><a class="link-btn" href="inventory.html">View all →</a></div><div class="mini-list"><div><b class="alert-ico">!</b><span><strong>Approve purchase PO-0048</strong><small>Vento Foods · ₦184,500</small></span><button>Review</button></div><div><b class="alert-ico">!</b><span><strong>Soft Touch Tissue</strong><small>3 left · Reorder at 10</small></span><button>Restock</button></div><div><b class="alert-ico">!</b><span><strong>Stock transfer request</strong><small>2 products · Register 02</small></span><button>Review</button></div></div></article>
+            <article class="panel">
+              <div class="panel-head">
+                <div>
+                  <h2>
+                    Recent sales
+                  </h2>
+                  <p>
+                    Latest transactions today
+                  </p>
+                </div>
+                <button class="link-btn">
+                  All sales →
+                </button>
+              </div>
+              <div id="recent-sales-list"></div>
+            </article>          
           </div>
         </section>
       </main>
     </div>
     <script src="app-shell.js"></script>
+    <script src="dashboard-nav.js"></script>
+    <script src="dashboard-data.js"></script>
   </body>
 </html>

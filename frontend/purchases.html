@@ -38,7 +38,9 @@
             <div class="filters"><input placeholder="⌕  Search purchase order"><button>All suppliers ˅</button><button>Order status ˅</button></div>
             <div class="table-scroll">
               <table class="data-table">
-                <thead><tr><th>PURCHASE ORDER</th><th>SUPPLIER</th><th>PURCHASE BY</th><th>TOTAL</th><th>DELIVERY DATE</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+                <thead><tr><th>PURCHASE ORDER</th><th>SUPPLIER</th><th>PURCHASE BY</th><th>TOTAL</th><th>DELIVERY DATE</th><th>STATUS</th>
+                  <!-- <th>ACTIONS</th> -->
+                </tr></thead>
                 <tbody id="purchaseTableBody">
                   <tr><td><strong>PO-0048</strong></td><td>Vento Foods</td><td>24 × Lavazza Qualità Rossa</td><td class="money">₦184,500.00</td><td>16 Aug 2026</td><td><span class="tag low">Pending</span></td><td>•••</td></tr>
                   <tr><td><strong>PO-0047</strong></td><td>The Flour Room</td><td>40 × Sourdough Loaf</td><td class="money">₦86,200.00</td><td>12 Aug 2026</td><td><span class="tag good">Received</span></td><td>•••</td></tr>
@@ -55,8 +57,8 @@
         <header class="modal-head"><h2 id="purchase-order-title">New purchase order</h2><button class="modal-close" type="button" data-close-modal aria-label="Close">×</button></header>
         <div class="modal-body">
           <div class="form-grid">
-            <label class="form-field full">Supplier <span class="required-mark">*</span><select name="supplier" required><option value="">Select active supplier</option><option>Vento Foods</option><option>The Flour Room</option><option>Farmhouse Dairy</option></select><span class="field-error"></span></label>
-            <label class="form-field">Product <span class="required-mark">*</span><select name="product" required><option value="">Select product</option><option>Lavazza Qualità Rossa</option><option>Sourdough Loaf</option><option>Fresh Orange Juice</option></select><span class="field-error"></span></label>
+            <label class="form-field full">Supplier <span class="required-mark">*</span><select name="supplier" id="supplier" required><option value="">Select active supplier</option></select><span class="field-error"></span></label>
+            <label class="form-field">Product <span class="required-mark">*</span><select name="product" id="product" required><option value="">Select product</option></select><span class="field-error"></span></label>
             <label class="form-field">Quantity <span class="required-mark">*</span><input name="quantity" type="number" min="1" step="1" required><span class="field-error"></span></label>
             <label class="form-field">Cost price <span class="required-mark">*</span><input name="cost" type="number" min="0" step=".01" required><span class="field-error"></span></label>
             <label class="form-field">Expected delivery date <input name="deliveryDate" type="date"></label>
@@ -68,5 +70,6 @@
     <div class="toast" role="status"></div>
     <script src="app-shell.js"></script>
     <script src="add-modals.js"></script>
+    sc
   </body>
 </html>
