@@ -25,7 +25,7 @@ function renderDashboard(data) {
 
   const alertList = document.getElementById('stock-alert-list');
   alertList.innerHTML = data.stockAlerts.length
-    ? data.stockAlerts.map((item) => `<div><b class="alert-ico">${initials(item.name)}</b><span><strong>${item.name}</strong><small>${item.quantity} left · Reorder at ${item.reorderLevel}</small></span><a class="mini-action" href="inventory.html#low-stock">Restock</a></div>`).join('')
+    ? data.stockAlerts.map((item) => `<div><b class="alert-ico">${initials(item.name)}</b><span><strong>${item.name}</strong><small>${item.quantity} left · Reorder at ${item.reorderLevel}</small></span><a class="mini-action" href="inventory.html">Restock</a></div>`).join('')
     : '<p class="dashboard-empty">No low-stock products right now.</p>';
 
   const recentSales = document.getElementById('recent-sales-list');
