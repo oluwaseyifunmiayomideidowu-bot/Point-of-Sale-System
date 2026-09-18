@@ -21,6 +21,7 @@
     $selectSql = "
         SELECT
             s.id,
+            s.sale_number,
             s.subtotal,
             s.discount,
             s.tax,

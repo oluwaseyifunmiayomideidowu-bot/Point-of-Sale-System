@@ -46,44 +46,73 @@ if (passwordToggle && loginPassword) {
 //   });
 // }
 
-if (loginForm){
+if (loginForm) {
   loginForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    event.preventDefault();
 
-      const formData = new FormData(loginForm);
+    const formData = new FormData(loginForm);
 
-      const login = formData.get('username').trim();
-      const password = formData.get('password');
+    const login = formData.get('username').trim();
+    const password = formData.get('password');
 
-      try {
-        const response = await fetch('http://localhost/point_of_sale_system/backend/api/login', {
+    try {
+      const response = await fetch(
+        'http://localhost/point_of_sale_system/backend/api/login',
+        {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
           body: JSON.stringify({
             login,
             password
           })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          loginError.textContent = data.message;
-          loginError.classList.add('is-visible');
-          console.log(username)
-          return;
         }
+      );
 
-        const {id, first_name, last_name, username, role} = data.data
+      const data = await response.json();
 
-        localStorage.setItem("user",JSON.stringify({id, first_name, last_name, username, role}));
-        window.location.href = "dashboard.html";
+      console.log("Status:", response.status);
+      console.log("Response:", data);
 
-      } catch (error) {
-        loginError.textContent = 'Unable to connect to the server. Please try again.';
+      if (!response.ok) {
+        loginError.textContent = data.message || 'Login failed.';
         loginError.classList.add('is-visible');
+        return;
       }
-    });
+
+      const { id, first_name, last_name, username, role } = data.data.user;
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id,
+          first_name,
+          last_name,
+          username,
+          role
+        })
+      );
+
+      console.log(role)
+
+      if (role === 'Administrator'){
+        window.location.href = "dashboard.html";
+      }else if (role === 'Manager') {
+        window.location.href = "manager-dashboard.html";
+      }else if (role === 'Cashier') {
+        window.location.href = "cashier-dashboard.html";
+      }
+
+
+    } catch (error) {
+      console.error(error);
+
+      loginError.textContent =
+        'Unable to connect to the server. Please try again.';
+
+      loginError.classList.add('is-visible');
+    }
+  });
 }

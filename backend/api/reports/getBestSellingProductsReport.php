@@ -66,6 +66,8 @@
         SELECT
             p.id AS product_id,
             p.name AS product_name,
+            p.image AS product_image,
+            p.selling_price AS product_price,
             p.sku,
 
             SUM(si.quantity) AS quantity_sold,
@@ -131,9 +133,11 @@
 
         $products[] = [
             'productId' => (int) $row['product_id'],
+            'productImage' => $row['product_image'],
             'productName' => $row['product_name'],
             'sku' => $row['sku'],
             'quantitySold' => (int) $row['quantity_sold'],
+            'productPrice' => $row['product_price'],
             'salesAmount' => (float) $row['sales_amount']
         ];
     }

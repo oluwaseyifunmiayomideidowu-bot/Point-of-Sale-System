@@ -85,10 +85,10 @@
 
             }
 
-        }elseif($result === false){
-            sendResponse(false, 'Unable to check existing user',null, 500);
+        }elseif($result === null){
+            sendResponse(false, 'User Not Found',null, 404);
         }else{
-            sendResponse(false, 'Invalid Login credentials.', null, 404);
+            sendResponse(false, 'Unable to check existing user', null, 500);
         }
 
     }else{
