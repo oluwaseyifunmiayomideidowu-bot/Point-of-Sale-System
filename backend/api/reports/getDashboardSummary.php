@@ -9,6 +9,8 @@
     require_once __DIR__ . '/../../models/Sale.php';
     require_once __DIR__ . '/../../middleware/auth.php';
     require_once __DIR__ . '/../../middleware/role.php';
+    require_once __DIR__ . '/../../middleware/auth.php';
+    require_once __DIR__ . '/../../middleware/role.php';
     require_once __DIR__ . '/../../helpers/functions.php';
 
 
@@ -114,6 +116,102 @@ $products = mysqli_fetch_assoc($productsResult);
 mysqli_free_result($productsResult);
 
 
+// Stock health by category: current units compared with the category's
+// combined reorder levels. This keeps the dashboard bars tied to inventory.
+$categorySql = "
+    SELECT
+        COALESCE(c.name, 'Uncategorised') AS category_name,
+        COALESCE(SUM(p.quantity), 0) AS current_quantity,
+        COALESCE(SUM(p.reorder_level), 0) AS reorder_quantity
+    FROM products p
+    LEFT JOIN categories c ON c.id = p.category_id
+    WHERE p.status = 'Active'
+    GROUP BY c.id, c.name
+    ORDER BY category_name ASC
+";
+
+$categoryResult = mysqli_query($conn, $categorySql);
+
+if (!$categoryResult) {
+    sendResponse(false, 'Failed to retrieve category inventory summary', null, 500);
+}
+
+requireAuth();
+requireRole(['Administrator', 'Manager']);
+
+$categories = [];
+
+while ($category = mysqli_fetch_assoc($categoryResult)) {
+    $currentQuantity = (int) $category['current_quantity'];
+    $reorderQuantity = (int) $category['reorder_quantity'];
+    $healthPercent = $reorderQuantity > 0
+        ? min(100, (int) round(($currentQuantity / $reorderQuantity) * 100))
+        : 100;
+
+    $categories[] = [
+        'name' => $category['category_name'],
+        'currentQuantity' => $currentQuantity,
+        'reorderQuantity' => $reorderQuantity,
+        'healthPercent' => $healthPercent
+    ];
+}
+
+mysqli_free_result($categoryResult);
+
+$alertsSql = "
+    SELECT name, sku, quantity, reorder_level
+    FROM products
+    WHERE status = 'Active' AND quantity <= reorder_level
+    ORDER BY quantity ASC, name ASC
+    LIMIT 3
+";
+
+$alertsResult = mysqli_query($conn, $alertsSql);
+
+if (!$alertsResult) {
+    sendResponse(false, 'Failed to retrieve stock alerts', null, 500);
+}
+
+$stockAlerts = [];
+
+while ($alert = mysqli_fetch_assoc($alertsResult)) {
+    $stockAlerts[] = [
+        'name' => $alert['name'],
+        'sku' => $alert['sku'],
+        'quantity' => (int) $alert['quantity'],
+        'reorderLevel' => (int) $alert['reorder_level']
+    ];
+}
+
+mysqli_free_result($alertsResult);
+
+$recentSalesSql = "
+    SELECT sale_number, total_amount, payment_method, created_at
+    FROM sales
+    ORDER BY created_at DESC
+    LIMIT 3
+";
+
+$recentSalesResult = mysqli_query($conn, $recentSalesSql);
+
+if (!$recentSalesResult) {
+    sendResponse(false, 'Failed to retrieve recent sales', null, 500);
+}
+
+$recentSales = [];
+
+while ($sale = mysqli_fetch_assoc($recentSalesResult)) {
+    $recentSales[] = [
+        'saleNumber' => $sale['sale_number'],
+        'totalAmount' => (float) $sale['total_amount'],
+        'paymentMethod' => $sale['payment_method'],
+        'createdAt' => $sale['created_at']
+    ];
+}
+
+mysqli_free_result($recentSalesResult);
+
+
 
 sendResponse(
     true,
@@ -128,6 +226,9 @@ sendResponse(
             'totalProducts' => (int) $products['total_products'],
             'lowStockProducts' => (int) $lowStock['low_stock_count'],
             'outOfStockProducts' => (int) $outOfStock['out_of_stock_count']
-        ]
+        ],
+        'categories' => $categories,
+        'stockAlerts' => $stockAlerts,
+        'recentSales' => $recentSales
     ]
 );

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      Sign in — Vendly
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pages.css">
+  </head>
+  <body class="login-page">
+    <main class="auth-layout">
+      <section class="login-brand-panel">
+        <a class="login-brand" href="index.html" aria-label="Vendly home">
+          <img src="vendly-logo.png" alt="Vendly logo">
+          <span>
+            vendly
+          </span>
+        </a>
+        <div class="login-message">
+          <p class="login-kicker">
+            RETAIL, REFINED
+          </p>
+          <h1 class="login-display">
+            Built for the
+            <br>
+            <em>
+              rhythm
+            </em>
+            of retail.
+          </h1>
+          <span class="login-copy">
+            Sell confidently, manage thoughtfully, and keep every detail close.
+          </span>
+        </div>
+        <footer class="login-footer">
+          © 2026 Vendly
+          <span>
+            Built in Lagos
+          </span>
+        </footer>
+      </section>
+      <section class="login-form-panel">
+        <form class="login-form" id="loginForm" novalidate>
+          <p class="eyebrow">
+            WELCOME BACK
+          </p>
+          <h2>
+            Sign in to your shop.
+          </h2>
+          <p class="intro">
+            Enter your username and password to continue to Buka Market.
+          </p>
+          <p class="login-error" id="loginError" role="alert" aria-live="polite">
+          </p>
+          <label class="login-field">
+            Username
+            <input name="username" type="text" placeholder="Enter your username" autocomplete="username" required>
+          </label>
+          <label class="login-field login-password-field">
+            <span>
+              Password
+              <a href="#">
+                Forgot password?
+              </a>
+            </span>
+            <span class="password-control">
+              <input name="password" id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button type="button" class="password-toggle" aria-controls="loginPassword" aria-label="Show password">
+                Show
+              </button>
+            </span>
+          </label>
+          <label class="remember login-remember">
+            <input type="checkbox">
+            Keep me signed in
+          </label>
+          <button class="btn copper wide" type="submit">
+            Sign in
+            <span>
+              →
+            </span>
+          </button>
+          <p class="auth-switch">
+            New to Vendly?
+            <a href="signup.html">
+              Create your workspace
+            </a>
+          </p>
+          <aside class="demo-accounts">
+            <strong>
+              Demo access
+            </strong>
+            <span>
+              <b>
+                Administrator
+              </b>
+              · adele.admin / vendlyadmin
+            </span>
+            <span>
+              <b>
+                Manager
+              </b>
+              · musa.manager / vendlymanager
+            </span>
+            <span>
+              <b>
+                Cashier
+              </b>
+              · chi.cashier / vendlycashier
+            </span>
+          </aside>
+        </form>
+      </section>
+    </main>
+    <script src="auth.js">
+    </script>
+  </body>
+</html>

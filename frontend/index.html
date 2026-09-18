@@ -3,88 +3,486 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Vendly is simple point-of-sale software for growing retailers.">
     <title>
-      Sign in — Vendly
+      Vendly — Point of Sale for Growing Retailers
     </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="homepage.css">
   </head>
-  <body class="login-page">
-    <main class="auth-layout">
-      <section class="login-brand-panel">
-        <a class="login-brand" href="index.html" aria-label="Vendly home">
-          <img src="vendly-logo.png" alt="Vendly logo">
-          <span>vendly</span>
-        </a>
-        <div class="login-message">
-          <p class="login-kicker">
-            RETAIL, REFINED
-          </p>
-          <h1 class="login-display">
-            Built for the
-            <br>
-            <em>
-              rhythm
-            </em>
-            of retail.
-          </h1>
-          <span class="login-copy">
-            Sell confidently, manage thoughtfully, and keep every detail close.
-          </span>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="#top">
+        Vendly
+      </a>
+      <nav class="header-actions" aria-label="Account actions">
+        <a class="signin-link" href="signin.html">Sign in</a>
+        <a class="button small" href="signup.html">Get Started</a>
+      </nav>
+    </header>
+    <main id="top">
+      <section class="hero section">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="chip">
+              Simple Retail Software
+            </p>
+            <h1>
+              Fast, Reliable Point of Sale for Every Counter
+            </h1>
+            <p class="hero-subhead">
+              Built for growing retailers
+            </p>
+            <p class="hero-body">
+              Vendly brings checkout, inventory, and sales reporting into one place — so your team can serve customers faster and always know what’s in stock.
+            </p>
+          </div>
+          <form class="demo-form" id="demo" action="#" method="post">
+            <h2>
+              See Vendly in action
+            </h2>
+            <div class="form-grid">
+              <label>
+                First Name
+                <input type="text" name="firstName" autocomplete="given-name" required>
+              </label>
+              <label>
+                Last Name
+                <input type="text" name="lastName" autocomplete="family-name" required>
+              </label>
+            </div>
+            <label>
+              Store Name
+              <input type="text" name="storeName" autocomplete="organization" required>
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label>
+              Phone
+              <span class="phone-row">
+                <select name="countryCode" aria-label="Country code">
+                  <option>
+                    +234
+                  </option>
+                  <option>
+                    +1
+                  </option>
+                  <option>
+                    +44
+                  </option>
+                  <option>
+                    +27
+                  </option>
+                </select>
+                <input type="tel" name="phone" autocomplete="tel" placeholder="Business phone" required>
+              </span>
+            </label>
+            <div class="form-grid">
+              <label>
+                Country
+                <select name="country" required>
+                  <option value="" selected disabled>
+                    Select country
+                  </option>
+                  <option>
+                    Nigeria
+                  </option>
+                  <option>
+                    Ghana
+                  </option>
+                  <option>
+                    Kenya
+                  </option>
+                  <option>
+                    South Africa
+                  </option>
+                  <option>
+                    Other
+                  </option>
+                </select>
+              </label>
+              <label>
+                Number of stores
+                <select name="stores" required>
+                  <option value="" selected disabled>
+                    Select
+                  </option>
+                  <option>
+                    1
+                  </option>
+                  <option>
+                    2–5
+                  </option>
+                  <option>
+                    6–10
+                  </option>
+                  <option>
+                    10+
+                  </option>
+                </select>
+              </label>
+            </div>
+            <p class="form-note">
+              By submitting this form, you agree to be contacted about Vendly.
+            </p>
+            <button class="button form-button" type="submit">
+              Request a Demo
+            </button>
+          </form>
         </div>
-        <footer class="login-footer">
-          © 2026 Vendly
-          <span>
-            Built in Lagos
-          </span>
-        </footer>
       </section>
-      <section class="login-form-panel">
-        <form class="login-form" id="loginForm" novalidate>
+      <section class="trust section paper">
+        <div class="container centered">
           <p class="eyebrow">
-            WELCOME BACK
+            Built for Teams Like Yours
           </p>
           <h2>
-            Sign in to your shop.
+            Made for Small and Growing Retailers
           </h2>
-          <p class="intro">
-            Enter your username and password to continue to Buka Market.
+          <p class="section-lead">
+            From single-counter shops to multi-branch stores.
           </p>
-          <p class="login-error" id="loginError" role="alert" aria-live="polite"></p>
-          <label class="login-field">Username<input name="username" type="text" placeholder="Enter your username" autocomplete="username" required></label>
-          <label class="login-field login-password-field">
-            <span>Password <a href="#">
-              Forgot password?
-            </a></span>
-            <span class="password-control"><input name="password" id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required><button type="button" class="password-toggle" aria-controls="loginPassword" aria-label="Show password">Show</button></span>
-          </label>
-          <label class="remember login-remember">
-            <input type="checkbox">
-            Keep me signed in
-          </label>
-          <button class="btn copper wide" type="submit">
-            Sign in
-            <span>
-              →
-            </span>
-          </button>
-          <p class="auth-switch">
-            New to Vendly?
-            <a href="signup.html">
-              Create your workspace
+          <div class="logo-grid">
+            <img src="images/homepage/logo-1.webp?v=20260917" alt="Retailer partner logo 1" width="120" height="48">
+            <img src="images/homepage/logo-2.webp?v=20260917" alt="Retailer partner logo 2" width="120" height="48">
+            <img src="images/homepage/logo-3.webp?v=20260917" alt="Retailer partner logo 3" width="120" height="48">
+            <img src="images/homepage/logo-4.webp?v=20260917" alt="Retailer partner logo 4" width="120" height="48">
+            <img src="images/homepage/logo-5.webp?v=20260917" alt="Retailer partner logo 5" width="120" height="48">
+            <img src="images/homepage/logo-6.webp?v=20260917" alt="Retailer partner logo 6" width="120" height="48">
+            <img src="images/homepage/logo-7.webp?v=20260917" alt="Retailer partner logo 7" width="120" height="48">
+            <img src="images/homepage/logo-8.webp?v=20260917" alt="Retailer partner logo 8" width="120" height="48">
+            <img src="images/homepage/logo-9.webp?v=20260917" alt="Retailer partner logo 9" width="120" height="48">
+          </div>
+        </div>
+      </section>
+      <section class="features section" id="features">
+        <div class="container">
+          <div class="centered">
+            <p class="eyebrow">
+              The Core Pieces
+            </p>
+            <h2>
+              Everything a Counter Needs
+            </h2>
+            <p class="section-lead">
+              Run sales, track stock, and see how the day went — all from one screen.
+            </p>
+          </div>
+          <div class="feature-list">
+            <article class="feature">
+              <div class="feature-copy">
+                <h3>
+                  Inventory &amp; Financial Control
+                </h3>
+                <p>
+                  Bring products, suppliers, and sales into one system, so every decision is based on real stock numbers, not guesswork.
+                </p>
+                <dl>
+                  <div>
+                    <dt>
+                      Sales
+                    </dt>
+                    <dd>
+                      Ring up items and close out a sale in seconds.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Purchasing
+                    </dt>
+                    <dd>
+                      Track suppliers and restock before you run out.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Inventory
+                    </dt>
+                    <dd>
+                      Live stock counts with reorder-level alerts.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Checkout
+                    </dt>
+                    <dd>
+                      Fast, accurate totals with clean receipts.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <img src="Inventory_and_financial_control.jpg?v=20260917" alt="Vendly inventory and financial control dashboard" width="620" height="430">
+            </article>
+            <article class="feature reverse">
+              <div class="feature-copy">
+                <h3>
+                  Dashboards &amp; Reporting
+                </h3>
+                <p>
+                  See how the shop is doing without digging through spreadsheets.
+                </p>
+                <dl>
+                  <div>
+                    <dt>
+                      Daily sales summary
+                    </dt>
+                    <dd>
+                      Today’s total, transaction count, and top items.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Low-stock alerts
+                    </dt>
+                    <dd>
+                      Know what to reorder before it runs out.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Sales history
+                    </dt>
+                    <dd>
+                      Every transaction, searchable by date, cashier, or payment method.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Manual entry
+                    </dt>
+                    <dd>
+                      Log a sale that didn’t go through the counter.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <img src="/images/homepage/feature-dashboard.png" alt="Vendly sales dashboard and reports" width="620" height="430">
+            </article>
+            <article class="feature">
+              <div class="feature-copy">
+                <h3>
+                  Built for the Counter
+                </h3>
+                <p>
+                  A checkout screen designed for a cashier standing all shift, not a designer at a desk.
+                </p>
+                <dl>
+                  <div>
+                    <dt>
+                      Product grid
+                    </dt>
+                    <dd>
+                      Large, tappable tiles for fast selection.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Cart &amp; checkout
+                    </dt>
+                    <dd>
+                      Running total always visible, never scrolled away.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Multiple payment methods
+                    </dt>
+                    <dd>
+                      Cash, card, or transfer, with change calculated automatically.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Receipts
+                    </dt>
+                    <dd>
+                      Print or reprint any past sale.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <img src="/images/homepage/feature-checkout.png" alt="Vendly point of sale checkout screen" width="620" height="430">
+            </article>
+            <article class="feature reverse">
+              <div class="feature-copy">
+                <h3>
+                  Roles Built In
+                </h3>
+                <p>
+                  Give each person on the team exactly the access they need — nothing more.
+                </p>
+                <dl>
+                  <div>
+                    <dt>
+                      Cashier
+                    </dt>
+                    <dd>
+                      Checkout and their own sales history only.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Manager
+                    </dt>
+                    <dd>
+                      Products, suppliers, categories, and sales, plus reporting.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Admin
+                    </dt>
+                    <dd>
+                      Everything, including creating and managing user accounts.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>
+                      Account status
+                    </dt>
+                    <dd>
+                      Deactivate access instantly without deleting a record.
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <img src="images/homepage/feature-roles.webp?v=20260917" alt="Vendly roles and team management screen" width="620" height="430">
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="benefits section" id="benefits">
+        <div class="container centered">
+          <p class="eyebrow">
+            Benefits
+          </p>
+          <h2>
+            What You Get with Vendly
+          </h2>
+          <p class="section-lead">
+            Everyday improvements that show up fast.
+          </p>
+          <div class="benefit-grid">
+            <article>
+              <span class="benefit-icon" aria-hidden="true">
+                ▣
+              </span>
+              <p>
+                Fewer stockouts, less overstock, as reorder alerts replace guesswork.
+              </p>
+            </article>
+            <article>
+              <span class="benefit-icon" aria-hidden="true">
+                ◷
+              </span>
+              <p>
+                Less time spent on manual counts and end-of-day reconciliation.
+              </p>
+            </article>
+            <article>
+              <span class="benefit-icon" aria-hidden="true">
+                ↗
+              </span>
+              <p>
+                A clear picture of what’s selling, from a dashboard anyone on the team can read.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="cta section">
+        <div class="container">
+          <div class="cta-box">
+            <h2>
+              Stop guessing what’s in stock.
+            </h2>
+            <p>
+              Get Vendly running at your counter today.
+            </p>
+            <a class="button" href="#demo">
+              Request a Demo
+              <span>
+                →
+              </span>
             </a>
-          </p>
-          <aside class="demo-accounts">
-            <strong>Demo access</strong>
-            <span><b>Administrator</b> · adele.admin / vendlyadmin</span>
-            <span><b>Manager</b> · musa.manager / vendlymanager</span>
-            <span><b>Cashier</b> · chi.cashier / vendlycashier</span>
-          </aside>
-        </form>
+          </div>
+        </div>
       </section>
     </main>
-    <script src="auth.js"></script>
+    <footer class="site-footer" id="contact">
+      <div class="container footer-grid">
+        <section>
+          <a class="wordmark footer-mark" href="#top">
+            Vendly
+          </a>
+          <p>
+            Vendly is a point-of-sale platform built for small and growing retailers — checkout, inventory, and reporting in one place.
+          </p>
+          <a href="mailto:hello@vendly.example">
+            hello@vendly.example
+          </a>
+          <a href="tel:+2340000000000">
+            +234 000 000 0000
+          </a>
+        </section>
+        <section>
+          <h3>
+            Product
+          </h3>
+          <a href="#features">
+            Features
+          </a>
+          <a href="#benefits">
+            Pricing
+          </a>
+          <a href="#demo">
+            Request a Demo
+          </a>
+        </section>
+        <section>
+          <h3>
+            Company
+          </h3>
+          <a href="#top">
+            About
+          </a>
+          <a href="#contact">
+            Contact
+          </a>
+        </section>
+        <section>
+          <h3>
+            Legal
+          </h3>
+          <a href="#">
+            Privacy Policy
+          </a>
+          <a href="#">
+            Terms of Service
+          </a>
+        </section>
+      </div>
+      <div class="container footer-bottom">
+        <span>
+          © 2026 Vendly. All rights reserved.
+        </span>
+        <span class="social-placeholder">
+          <a href="#" aria-label="Facebook">
+            ◉
+          </a>
+          <a href="#" aria-label="Instagram">
+            ◎
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            in
+          </a>
+        </span>
+      </div>
+    </footer>
   </body>
 </html>

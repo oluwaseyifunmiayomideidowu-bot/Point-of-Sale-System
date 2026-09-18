@@ -306,7 +306,7 @@ if ($method === 'GET' && $uri === '/point_of_sale_system/backend/api/reports/das
 }
 
 if ($method === 'GET' && $uri === '/point_of_sale_system/backend/api/inventory') {
-    require_once __DIR__ . '/getInventory.php';
+    require_once __DIR__ . '/inventory/getInventory.php';
     exit;
 }
 
