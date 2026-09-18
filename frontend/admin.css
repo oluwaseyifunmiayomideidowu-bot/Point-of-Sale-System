@@ -52,6 +52,7 @@ body{
   padding:23px 15px;
   display:flex;
   flex-direction:column;
+  overflow:hidden;
   box-shadow:2px 0 18px rgba(0,0,0,.12)
 }
 .side-brand{
@@ -113,6 +114,26 @@ body{
 .nav{
   overflow:auto;
   padding:9px 0
+}
+
+/* Keep sidebar navigation scrollable without exposing a browser scrollbar. */
+.side .nav{
+  flex:1 1 auto;
+  min-height:0;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -ms-overflow-style:none;
+  scrollbar-width:none !important;
+}
+
+.side .nav::-webkit-scrollbar,
+.side .nav::-webkit-scrollbar-track,
+.side .nav::-webkit-scrollbar-thumb,
+.side .nav::-webkit-scrollbar-button{
+  display:none !important;
+  width:0 !important;
+  height:0 !important;
+  background:transparent !important;
 }
 .nav h6{
   margin:17px 10px 7px;
