@@ -115,12 +115,35 @@
           <div class="pos-shell">
             <section>
               <input class="search" id="product-search" type="search" placeholder="Search products or scan a barcode" autocomplete="off">
+              <div class="category-scroller">
+
+  <button
+    class="category-scroll-button left"
+    id="categoryScrollLeft"
+    type="button"
+    aria-label="Scroll categories left"
+  >
+    ‹
+  </button>
+
               <div class="cats" id="categoryButtons">
                 <button class="active" type="button" data-category="All">All items</button>
                 <button type="button" data-category="Beverages">Beverages</button>
                 <button type="button" data-category="Pantry">Pantry</button>
                 <button type="button" data-category="Dairy & Eggs">Dairy &amp; Eggs</button>
               </div>
+
+  <button
+    class="category-scroll-button right"
+    id="categoryScrollRight"
+    type="button"
+    aria-label="Scroll categories right"
+  >
+    ›
+  </button>
+
+</div>
+              
               <div class="pos-products" id="productsContainer" aria-live="polite">
                 <button class="pos-product">
                   <span class="picture">
@@ -266,7 +289,93 @@
           </div>
         </section>
       </main>
+    <div class="page-scroll-controls" aria-label="Page navigation">
+  <button
+    type="button"
+    id="pageScrollButton"
+    aria-label="Go to bottom"
+    title="Go to bottom"
+  >
+    ↓
+  </button>
+</div>
+<!-- Product quantity keypad -->
+<div class="quantity-modal" id="quantityModal" hidden>
+  <div class="quantity-modal-backdrop" data-close-quantity></div>
+
+  <div
+    class="quantity-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="quantityProductName"
+  >
+
+    <button
+      class="quantity-close"
+      type="button"
+      data-close-quantity
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+    <p class="eyebrow">ADD TO CART</p>
+
+    <h2 id="quantityProductName">
+      Product
+    </h2>
+
+    <small id="quantityStockInfo">
+      Available: 0
+    </small>
+
+    <div class="quantity-display">
+      <input
+        id="quantityInput"
+        type="text"
+        inputmode="numeric"
+        value="1"
+        readonly
+        aria-label="Product quantity"
+      >
     </div>
+
+    <div class="quantity-keypad">
+
+      <button type="button" data-key="1">1</button>
+      <button type="button" data-key="2">2</button>
+      <button type="button" data-key="3">3</button>
+
+      <button type="button" data-key="4">4</button>
+      <button type="button" data-key="5">5</button>
+      <button type="button" data-key="6">6</button>
+
+      <button type="button" data-key="7">7</button>
+      <button type="button" data-key="8">8</button>
+      <button type="button" data-key="9">9</button>
+
+      <button type="button" data-key="clear">C</button>
+      <button type="button" data-key="0">0</button>
+      <button type="button" data-key="backspace">⌫</button>
+
+    </div>
+
+    <p class="quantity-error" id="quantityError"></p>
+
+    <button
+      class="button quantity-add-button"
+      type="button"
+      id="addQuantityButton"
+    >
+      Add to cart
+      <span>→</span>
+    </button>
+
+  </div>
+</div>
+    </div>
+    <script src="authorize.js"></script>
+    <script src="page-scroll.js"></script>
     <script src="app-shell.js?v=20260918-nav-cleanup"></script>
     <script src="pos-cart-state.js"></script>
   </body>

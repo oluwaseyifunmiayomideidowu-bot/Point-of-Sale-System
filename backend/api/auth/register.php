@@ -26,7 +26,7 @@
         sendResponse( false, 'Invalid request data', null, 400);
     }
 
-    // --- RETRIVING DATA FROM THE FORM ---
+    // --- RETRIEVE DATA FROM THE FORM ---
     
     $firstName = trim($data['firstName'] ?? '');
     $lastName = trim($data['lastName'] ?? '');
@@ -34,6 +34,7 @@
     $email = trim($data['email'] ?? '');
     $phone = trim($data['phone'] ?? '');
     $password = $data['password'] ?? '';
+    $confirmPassword = $data['confirmPassword'] ?? '';
     $confirmPassword = $data['confirmPassword'] ?? '';
     
     // --- VALIDATE THE DATA ---
@@ -44,7 +45,7 @@
         'userName' => validateName($userName,'Username', true),
         'email' => validateEmail($email),
         'phone' => validatePhone($phone),
-        'passwords' => validatePasswords($password,$confirmPassword),
+        'passwords' => validatePasswords($password,$confirmPassword)
     ];
 
     if(isAllNull($inputErrors)){

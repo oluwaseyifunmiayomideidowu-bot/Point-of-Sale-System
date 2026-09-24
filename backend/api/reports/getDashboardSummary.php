@@ -186,9 +186,23 @@ while ($alert = mysqli_fetch_assoc($alertsResult)) {
 mysqli_free_result($alertsResult);
 
 $recentSalesSql = "
-    SELECT sale_number, total_amount, payment_method, created_at
-    FROM sales
-    ORDER BY created_at DESC
+    SELECT
+            s.id,
+            s.sale_number,
+            s.subtotal,
+            s.discount,
+            s.tax,
+            s.total_amount,
+            s.payment_method,
+            s.amount_received,
+            s.change_amount,
+            s.created_at,
+            u.first_name,
+            u.last_name
+        FROM sales s
+        INNER JOIN users u
+            ON s.user_id = u.id
+    ORDER BY s.created_at DESC
     LIMIT 3
 ";
 
@@ -205,7 +219,9 @@ while ($sale = mysqli_fetch_assoc($recentSalesResult)) {
         'saleNumber' => $sale['sale_number'],
         'totalAmount' => (float) $sale['total_amount'],
         'paymentMethod' => $sale['payment_method'],
-        'createdAt' => $sale['created_at']
+        'createdAt' => $sale['created_at'],
+        'firstName'=> $sale['first_name'],
+        'lastName'=> $sale['last_name'],
     ];
 }
 

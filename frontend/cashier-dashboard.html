@@ -11,18 +11,146 @@
   </head>
   <body>
     <div class="admin">
-      <aside class="side">
-        <a class="side-brand" href="cashier-dashboard.html"><img src="vendly-logo.png" alt="Vendly logo"><span>vendly</span></a>
-        <div class="shop"><b>BM</b><span><strong>Buka Market</strong><small>Cashier workspace</small></span><i>⌄</i></div>
-        <nav class="nav">
-          <h6>WORKSPACE</h6>
-          <a class="active" href="cashier-dashboard.html"><span class="ico">⌂</span>My shift</a>
-          <a href="cashier-pos.html"><span class="ico">⊞</span>Point of sale</a>
-          <h6>MY ACTIVITY</h6>
-          <a href="#sales"><span class="ico">▥</span>My sales</a>
-        </nav>
-        <div class="profile"><b class="avatar">CO</b><span><strong>Chi Okafor</strong><small>Cashier</small></span><i>›</i></div>
-      </aside>
+           <aside class="side">
+
+  <a class="side-brand" href="#" id="brand-link">
+    <img src="vendly-logo.png" alt="Vendly logo">
+    <span>vendly</span>
+  </a>
+
+  <div class="shop">
+    <b>BM</b>
+
+    <span>
+      <strong>Buka Market</strong>
+      <small id="user-role">--</small>
+    </span>
+
+    <i>⌄</i>
+  </div>
+
+
+  <!-- Sidebar Navigation -->
+  <nav class="nav" aria-label="Main navigation">
+
+    <span class="nav-indicator" aria-hidden="true"></span>
+
+
+    <!-- MAIN -->
+    <h6>MAIN</h6>
+
+    <a
+      class="dashboard-link"
+      href="#"
+      data-roles="admin,manager,cashier"
+    >
+      <span class="ico">D</span>
+      Dashboard
+    </a>
+
+
+    <!-- SALES -->
+    <h6 data-roles="admin,manager,cashier">SALES</h6>
+
+    <a
+      href="pos.html"
+      data-roles="admin,manager,cashier"
+    >
+      <span class="ico">P</span>
+      Point of sale
+    </a>
+
+
+    <!-- INVENTORY -->
+    <h6 data-roles="admin,manager">INVENTORY</h6>
+
+    <a
+      href="products.html"
+      data-roles="admin,manager"
+    >
+      <span class="ico">P</span>
+      Products
+      <em id="productsNumber">-</em>
+    </a>
+
+    <a
+      href="inventory.html"
+      data-roles="admin,manager"
+    >
+      <span class="ico">I</span>
+      Inventory
+      <em class="warn" id="lowStockNumber">0</em>
+    </a>
+
+
+    <!-- PURCHASES -->
+    <h6 data-roles="admin,manager">PURCHASES</h6>
+
+    <a
+      href="purchases.html"
+      data-roles="admin,manager"
+    >
+      <span class="ico">O</span>
+      Purchases
+    </a>
+
+    <a
+      href="suppliers.html"
+      data-roles="admin,manager"
+    >
+      <span class="ico">S</span>
+      Suppliers
+    </a>
+
+
+    <!-- REPORTS -->
+    <h6 data-roles="admin,manager">REPORTS</h6>
+
+    <a
+      href="reports.html"
+      data-roles="admin,manager"
+    >
+      <span class="ico">S</span>
+      Sales reports
+    </a>
+
+    <a
+      href="reports.html#inventory"
+      data-roles="admin,manager"
+    >
+      <span class="ico">I</span>
+      Inventory reports
+    </a>
+
+    <a
+      href="reports.html#expenses"
+      data-roles="admin"
+    >
+      <span class="ico">E</span>
+      Expenses
+    </a>
+
+
+    <!-- SETTINGS -->
+    <h6 data-roles="admin">SETTINGS</h6>
+
+  </nav>
+
+
+  <div class="profile">
+
+    <b class="avatar user-initial">AO</b>
+
+    <span>
+      <strong class="user-name">--</strong>
+      <small>View profile</small>
+    </span>
+
+    <i>›</i>
+
+  </div>
+
+</aside>
       <main class="content">
         <header class="topbar"><span class="crumb">Cashier / <b>My shift</b></span><span class="right">Register #01 · Tuesday, 13 August <b class="avatar">CO</b></span></header>
         <section class="page">
@@ -37,5 +165,10 @@
         </section>
       </main>
     </div>
+    <script src="authorize.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app-shell.js?v=20260918-nav-cleanup"></script>
+    <script src="dashboard-nav.js"></script>
+    <script src="dashboard-data.js"></script>
   </body>
 </html>

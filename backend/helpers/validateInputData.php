@@ -191,6 +191,6 @@
 
     function removeNullValues($arr){
         return array_filter($arr, fn($value) => $value !== null);
-    }
+    }  # Returns true if all error are null and false is there are not 
     
 ?>

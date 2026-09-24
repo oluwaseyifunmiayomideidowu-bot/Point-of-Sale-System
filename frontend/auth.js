@@ -84,18 +84,14 @@ if (loginForm) {
 
       const { id, first_name, last_name, username, role } = data.data.user;
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
+     VendlyAuth.createSession({
           id,
           first_name,
           last_name,
           username,
           role
-        })
-      );
+        });
 
-      console.log(role)
 
       if (role === 'Administrator'){
         window.location.href = "dashboard.html";

@@ -17,8 +17,96 @@ const amountReceived = document.getElementById('amount-received');
 const paymentButtons = document.querySelectorAll('.pay-options button');
 const saleStatus = document.getElementById('sale-status');
 
+const quantityModal =
+  document.getElementById("quantityModal");
+
+const quantityProductName =
+  document.getElementById("quantityProductName");
+
+const quantityStockInfo =
+  document.getElementById("quantityStockInfo");
+
+const quantityInput =
+  document.getElementById("quantityInput");
+
+const quantityError =
+  document.getElementById("quantityError");
+
+const addQuantityButton =
+  document.getElementById("addQuantityButton");
+
+const quantityKeypad =
+  document.querySelector(".quantity-keypad");
+
+let selectedProduct = null;
+
 let selectedCategory = 'All';
 let paymentMethod = 'Cash';
+
+const categoryScroller =
+  document.getElementById("categoryButtons");
+
+const categoryScrollLeft =
+  document.getElementById("categoryScrollLeft");
+
+const categoryScrollRight =
+  document.getElementById("categoryScrollRight");
+
+
+function updateCategoryScrollButtons() {
+
+  if (!categoryScroller) return;
+
+  const atStart =
+    categoryScroller.scrollLeft <= 5;
+
+  const atEnd =
+    categoryScroller.scrollLeft +
+    categoryScroller.clientWidth >=
+    categoryScroller.scrollWidth - 5;
+
+
+  categoryScrollLeft?.classList.toggle(
+    "is-visible",
+    !atStart
+  );
+
+  categoryScrollRight?.classList.toggle(
+    "is-visible",
+    !atEnd
+  );
+}
+
+
+categoryScrollLeft?.addEventListener("click", () => {
+
+  categoryScroller.scrollBy({
+    left: -220,
+    behavior: "smooth"
+  });
+
+});
+
+
+categoryScrollRight?.addEventListener("click", () => {
+
+  categoryScroller.scrollBy({
+    left: 220,
+    behavior: "smooth"
+  });
+
+});
+
+
+categoryScroller?.addEventListener(
+  "scroll",
+  updateCategoryScrollButtons
+);
+
+window.addEventListener(
+  "resize",
+  updateCategoryScrollButtons
+);
 
 
 function formatNaira(amount) {
@@ -27,6 +115,164 @@ function formatNaira(amount) {
     maximumFractionDigits: 2
   })}`;
 }
+
+function openQuantityModal(product, currentQuantity = 1) {
+
+  selectedProduct = product;
+
+  const stock =
+    Number(product.quantity) || 0;
+
+  quantityProductName.textContent =
+    product.name;
+
+  quantityStockInfo.textContent =
+    `Available: ${stock}`;
+
+  quantityInput.value =
+    String(currentQuantity);
+
+  quantityError.textContent = "";
+
+  quantityModal.hidden = false;
+}
+
+function closeQuantityModal() {
+
+  quantityModal.hidden = true;
+
+  selectedProduct = null;
+
+  delete quantityModal.dataset.cartIndex;
+
+  quantityInput.value = "1";
+
+  quantityError.textContent = "";
+}
+
+
+function showQuantityError(message) {
+
+  quantityError.textContent = message;
+}
+
+quantityKeypad.addEventListener("click", (event) => {
+
+  const button =
+    event.target.closest("[data-key]");
+
+  if (!button) return;
+
+  const key =
+    button.dataset.key;
+
+
+  if (key === "clear") {
+
+    quantityInput.value = "";
+
+    return;
+  }
+
+
+  if (key === "backspace") {
+
+    quantityInput.value =
+      quantityInput.value.slice(0, -1);
+
+    return;
+  }
+
+
+  // Don't allow more than 6 digits
+  if (quantityInput.value.length >= 6) {
+    return;
+  }
+
+
+  // Prevent leading zeroes
+  if (
+    quantityInput.value === "0" &&
+    key !== "0"
+  ) {
+    quantityInput.value = key;
+    return;
+  }
+
+
+  if (quantityInput.value === "0") {
+    return;
+  }
+
+
+  quantityInput.value += key;
+});
+
+addQuantityButton.addEventListener("click", () => {
+
+  if (!selectedProduct) return;
+
+  const requestedQuantity =
+    Number(quantityInput.value);
+
+  if (
+    !Number.isInteger(requestedQuantity) ||
+    requestedQuantity <= 0
+  ) {
+    showQuantityError(
+      "Enter a quantity greater than 0."
+    );
+    return;
+  }
+
+  const availableStock =
+    Number(selectedProduct.quantity);
+
+  if (requestedQuantity > availableStock) {
+    showQuantityError(
+      `Only ${availableStock} available in stock.`
+    );
+    return;
+  }
+
+  const cartIndex =
+    quantityModal.dataset.cartIndex;
+
+  if (cartIndex !== undefined && cartIndex !== "") {
+
+    const item = cart[Number(cartIndex)];
+
+    if (item) {
+      item.quantity = requestedQuantity;
+    }
+
+  } else {
+
+    const existingCartItem =
+      cart.find(
+        (item) =>
+          item.product.id === selectedProduct.id
+      );
+
+    if (existingCartItem) {
+      existingCartItem.quantity =
+        requestedQuantity;
+    } else {
+      cart.push({
+        product: selectedProduct,
+        quantity: requestedQuantity
+      });
+    }
+  }
+
+  saleStatus.textContent = "";
+
+  delete quantityModal.dataset.cartIndex;
+
+  closeQuantityModal();
+
+  renderCart();
+});
 
 
 async function getProducts() {
@@ -48,8 +294,21 @@ async function getProducts() {
 
     const data = await response.json();
 
-    products = data.data || [];
+    // Get all products from the API
+    const allProducts = data.data || [];
 
+    // Only keep active products that have stock
+    products = allProducts.filter((product) => {
+      const isActive =
+        String(product.status).toLowerCase() === "active";
+
+      const hasStock =
+        Number(product.quantity) > 0;
+
+      return isActive && hasStock;
+    });
+
+    // Render only available products
     renderProducts();
 
   } catch (error) {
@@ -60,6 +319,7 @@ async function getProducts() {
     `;
   }
 }
+
 const categoryButtonsContainer =
   document.getElementById("categoryButtons");
 
@@ -423,32 +683,40 @@ function renderCart() {
 
           <span class="quantity-stepper">
 
-            <button
-              type="button"
-              data-cart-action="decrease"
-              data-cart-index="${index}"
-              aria-label="Decrease ${item.product.name} quantity"
-            >
-              −
-            </button>
+  <button
+    type="button"
+    data-cart-action="decrease"
+    data-cart-index="${index}"
+    aria-label="Decrease ${item.product.name} quantity"
+  >
+    −
+  </button>
 
+  <b>
+    ${item.quantity}
+  </b>
 
-            <b>
-              ${item.quantity}
-            </b>
+  <button
+    type="button"
+    data-cart-action="increase"
+    data-cart-index="${index}"
+    aria-label="Increase ${item.product.name} quantity"
+  >
+    +
+  </button>
 
+  <button
+    class="quantity-keypad-trigger"
+    type="button"
+    data-cart-action="quantity"
+    data-cart-index="${index}"
+    aria-label="Enter quantity"
+    title="Enter quantity"
+  >
+    ⌨
+  </button>
 
-            <button
-              type="button"
-              data-cart-action="increase"
-              data-cart-index="${index}"
-              aria-label="Increase ${item.product.name} quantity"
-            >
-              +
-            </button>
-
-          </span>
-
+</span>
         </div>
 
 
@@ -497,15 +765,33 @@ function renderCart() {
   updateTotals();
 }
 
+document.querySelectorAll("[data-close-quantity]")
+  .forEach((element) => {
 
-productGrid.addEventListener('click', (event) => {
+    element.addEventListener(
+      "click",
+      closeQuantityModal
+    );
+
+  });
+
+  document.addEventListener("keydown", (event) => {
+
+  if (
+    event.key === "Escape" &&
+    !quantityModal.hidden
+  ) {
+    closeQuantityModal();
+  }
+
+});
+
+productGrid.addEventListener("click", (event) => {
 
   const productButton =
-    event.target.closest('[data-product-id]');
-
+    event.target.closest("[data-product-id]");
 
   if (!productButton) return;
-
 
   const product =
     products.find(
@@ -514,9 +800,7 @@ productGrid.addEventListener('click', (event) => {
         productButton.dataset.productId
     );
 
-
   if (!product) return;
-
 
   const cartItem =
     cart.find(
@@ -524,11 +808,12 @@ productGrid.addEventListener('click', (event) => {
         item.product.id === product.id
     );
 
-
   if (cartItem) {
 
-    // Don't allow selling more than available stock
-    if (cartItem.quantity >= Number(product.quantity)) {
+    if (
+      cartItem.quantity >=
+      Number(product.quantity)
+    ) {
       return;
     }
 
@@ -543,18 +828,15 @@ productGrid.addEventListener('click', (event) => {
 
   }
 
-
-  saleStatus.textContent = '';
+  saleStatus.textContent = "";
 
   renderCart();
 });
 
-
-cartItems.addEventListener('click', (event) => {
+cartItems.addEventListener("click", (event) => {
 
   const actionButton =
-    event.target.closest('[data-cart-action]');
-
+    event.target.closest("[data-cart-action]");
 
   if (!actionButton) return;
 
@@ -565,35 +847,55 @@ cartItems.addEventListener('click', (event) => {
 
   const item = cart[index];
 
-
   if (!item) return;
 
 
+  // Get the action BEFORE using it
   const action =
     actionButton.dataset.cartAction;
 
 
-  if (action === 'increase') {
+  // Open numeric keypad
+  if (action === "quantity") {
+
+    openQuantityModal(
+      item.product,
+      item.quantity
+    );
+
+    quantityModal.dataset.cartIndex =
+      String(index);
+
+    return;
+  }
+
+
+  // Increase quantity
+  if (action === "increase") {
 
     if (
       item.quantity <
       Number(item.product.quantity)
     ) {
+
       item.quantity += 1;
+
     }
 
   }
 
 
-  if (action === 'decrease') {
+  // Decrease quantity
+  if (action === "decrease") {
 
     item.quantity -= 1;
 
   }
 
 
+  // Remove item if quantity reaches zero
   if (
-    action === 'remove' ||
+    action === "remove" ||
     item.quantity <= 0
   ) {
 
@@ -603,6 +905,7 @@ cartItems.addEventListener('click', (event) => {
 
 
   renderCart();
+
 });
 
 

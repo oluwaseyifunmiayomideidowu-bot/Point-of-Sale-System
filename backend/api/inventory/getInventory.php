@@ -31,9 +31,11 @@ $sql = "
         p.cost_price,
         p.selling_price,
         p.status,
+        p.image,
+        p.updated_at,
 
         c.name AS category_name,
-        s.name AS supplier_name
+        s.username AS supplier_name
 
     FROM products p
 
@@ -69,8 +71,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($quantity === 0) {
         $stockStatus = 'Out of Stock';
     } elseif ($quantity <= $reorderLevel) {
-        $stockStatus = 'Low Stock';
+        $stockStatus = "$quantity Remain";
+    } elseif ($quantity <= $reorderLevel + 10) {
+        $stockStatus = "Low Stock";
     }
+
 
     $inventory[] = [
         'productId' => (int) $row['id'],
@@ -83,6 +88,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         'categoryName' => $row['category_name'],
         'supplierName' => $row['supplier_name'],
         'status' => $row['status'],
+        'updated_at' => $row['updated_at'],
+        'image'=> $row['image'],
         'stockStatus' => $stockStatus
     ];
 }

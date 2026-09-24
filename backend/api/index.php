@@ -305,7 +305,7 @@ if ($method === 'GET' && $uri === '/point_of_sale_system/backend/api/reports/das
     exit;
 }
 
-if ($method === 'GET' && $uri === '/point_of_sale_system/backend/api/inventory') {
+if ($method === 'GET' && $uri === '/point_of_sale_system/backend/api/getInventory') {
     require_once __DIR__ . '/inventory/getInventory.php';
     exit;
 }
@@ -320,16 +320,6 @@ if (
     require_once __DIR__ . '/getInventoryMovements.php';
     exit;
 }
-
-if (
-    $method === 'GET' &&
-    $uri === '/point_of_sale_system/backend/api/inventory'
-) {
-    require_once __DIR__ . '/getInventory.php';
-    exit;
-}
-
-
 
 
 sendResponse(false, 'Route not found', null, 404);

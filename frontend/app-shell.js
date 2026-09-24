@@ -1,8 +1,40 @@
+let lowStockCount = 0;
+
+async function getLowStockCount() {
+  try {
+    const response = await fetch(
+      "/point_of_sale_system/backend/api/reports/low-stock",
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        },
+        credentials: "include"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    lowStockCount = Number(data.data?.low_stock || 0);
+
+    renderSharedNavigation();
+
+  } catch (error) {
+    console.error("Error getting low stock count:", error);
+  }
+}
+
+getLowStockCount();
+
 const sharedNavigation = [
   ['MAIN', [['dashboard.html', 'D', 'Dashboard']]],
   ['SALES', [['pos.html', 'P', 'Point of sale']]],
-  ['INVENTORY', [['products.html', 'P', 'Products', '24'], ['inventory.html', 'I', 'Inventory', '3', 'warn']]],
-  ['PURCHASES', [['purchases.html', 'O', 'Purchases'], ['suppliers.html', 'S', 'Suppliers']]],
+  ['INVENTORY', [['products.html', 'P', 'Products', null], ['inventory.html', 'I', 'Inventory', null, 'warn']]],
+  ['PURCHASES', [['purchases.html', 'P', 'Purchases'], ['suppliers.html', 'S', 'Suppliers']]],
   ['REPORTS', [['reports.html', 'S', 'Sales reports'], ['reports.html#inventory', 'I', 'Inventory reports'], ['reports.html#expenses', 'E', 'Expenses']]],
 ];
 
@@ -16,22 +48,69 @@ function renderSharedNavigation() {
   if (!nav) return;
 
   const user = JSON.parse(localStorage.getItem('user') || 'null');
-  const role = user?.role || document.body.dataset.role || 'Administrator';
+
+  const role =
+    user?.role ||
+    document.body.dataset.role ||
+    'Administrator';
+
   const currentPath = activeNavigationPath();
+
   const groups = sharedNavigation;
 
   nav.setAttribute('aria-label', 'Main navigation');
-  nav.innerHTML = `<span class="nav-indicator" aria-hidden="true"></span>${groups.map(([group, links]) => `<h6>${group}</h6>${links.map(([href, icon, label, badge, badgeClass = '']) => `<a href="${href}" class="${href === currentPath || (!window.location.hash && href === currentPath) ? 'active' : ''}"><span class="ico">${icon}</span>${label}${badge ? `<em class="${badgeClass}">${badge}</em>` : ''}</a>`).join('')}`).join('')}`;
+
+  nav.innerHTML = `
+    <span class="nav-indicator" aria-hidden="true"></span>
+
+    ${groups.map(([group, links]) => `
+      <h6>${group}</h6>
+
+      ${links.map(([href, icon, label, badge, badgeClass = '']) => {
+
+        // Use the real low-stock count for Inventory
+        let actualBadge = badge;
+
+        if (href === 'inventory.html') {
+          actualBadge = lowStockCount;
+        }
+
+        return `
+          <a
+            href="${href}"
+            class="${href === currentPath ? 'active' : ''}"
+          >
+            <span class="ico">${icon}</span>
+            ${label}
+
+            ${
+              actualBadge > 0
+                ? `<em class="${badgeClass}">${actualBadge}</em>`
+                : ''
+            }
+          </a>
+        `;
+      }).join('')}
+    `).join('')}
+  `;
 
   const userRole = document.getElementById('user-role');
   const userName = document.querySelector('.user-name');
-  if (userRole && user?.role) userRole.textContent = user.role;
-  if (userName && user?.first_name) userName.textContent = user.first_name;
+
+  if (userRole && user?.role) {
+    userRole.textContent = user.role;
+  }
+
+  if (userName && user?.first_name) {
+    userName.textContent = user.first_name;
+  }
 
   const indicator = nav.querySelector('.nav-indicator');
   const activeLink = nav.querySelector('.active');
+
   if (indicator && activeLink) {
-    indicator.style.transform = `translateY(${activeLink.offsetTop}px)`;
+    indicator.style.transform =
+      `translateY(${activeLink.offsetTop}px)`;
   }
 
   nav.querySelectorAll('h6, a').forEach((item, index) => {

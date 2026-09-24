@@ -48,7 +48,7 @@
     // or no search value was supplied.
     // It can also find find a user info except for a specific id
     // Return value remains the same
-    function findUser(mysqli $conn, $data, $exceptId = null){
+function findUser(mysqli $conn, $data, $exceptId = null){
         $conditions = [];
         $values = [];
         $types = "";
@@ -119,7 +119,7 @@
         mysqli_stmt_close($selectStmt);
 
         return $user;
-    }
+}
 
     // Update the last login 
     // Return true if it could and flase if could not 

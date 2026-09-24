@@ -23,7 +23,7 @@
     requireRole(['Administrator', 'Manager']);
 
     // Read JSON request body
-    // $data = json_decode(file_get_contents("php://input"), true);
+    // $data = json_decode(file_get_contents("php://input"), true);;
 
     // if (!is_array($data)) {
     //     sendResponse(false, 'Invalid request data', null, 400);
@@ -32,7 +32,7 @@
     // Retrieve input
     $productName = trim($_POST['productName'] ?? '');
     $categoryName = trim($_POST['categoryName'] ?? '');
-    $supplierName = trim($_POST['supplierName'] ?? '');
+     $supplierName = trim($_POST['supplierName'] ?? '');
     $costPrice = $_POST['costPrice'] ?? null;
     $sellingPrice = $_POST['sellingPrice'] ?? null;
     $quantity = $_POST['quantity'] ?? null;
@@ -41,8 +41,6 @@
 
     // Validate input
     $inputErrors = [
-       'productName' => validateName($productName, 'Product Name'),
-       'categoryName' => validateName($categoryName, 'Category Name'),
        'supplierName' => validateUsername($supplierName, 'Supplier Name'),
        'costPrice' => validateNumeric($costPrice, 'Cost Price'),
        'sellingPrice' => validateNumeric($sellingPrice, 'Selling Price'),

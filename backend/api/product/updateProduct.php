@@ -27,7 +27,7 @@
 
 
     // Find existing product
-    $selectSql = "SELECT id, category_id, supplier_id, name, sku, cost_price, selling_price, quantity, reorder_level, image, statusFROM products WHERE id = ? LIMIT 1";
+    $selectSql = "SELECT id, category_id, supplier_id, name, sku, cost_price, selling_price, quantity, reorder_level, image, status FROM products WHERE id = ? LIMIT 1";
 
     $stmt = mysqli_stmt_init($conn);
 
@@ -60,6 +60,7 @@
     $supplierName = trim($_POST['supplierName'] ?? '');
     $costPrice = $_POST['costPrice'] ?? null;
     $sellingPrice = $_POST['sellingPrice'] ?? null;
+    $quantity = $_POST['quantity'] ?? null;
     $reorderLevel = $_POST['reorderLevel'] ?? null;
     $status = $_POST['status'] ?? '';
 
@@ -88,7 +89,7 @@
 
     $categoryData = [
         "categoryName" => $categoryName
-    ]
+    ];
 
 
     // Find category
@@ -106,7 +107,7 @@
 
     $supplierData = [
         "username" => $supplierName
-    ]
+    ];
 
     // Find supplier
     $supplier = findSupplier($conn, $supplierData);

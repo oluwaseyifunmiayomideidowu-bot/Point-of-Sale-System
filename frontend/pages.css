@@ -249,8 +249,9 @@ h1 {
   border-left: 3px solid #b3261e;
   background: #fbedeb;
   color: #8f241e;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.45;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .login-error.is-visible {

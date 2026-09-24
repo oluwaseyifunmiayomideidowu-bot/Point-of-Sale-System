@@ -11,90 +11,33 @@ function formatDate(dateString) {
   });
 }
 
-
-async function getProducts() {
-  try {
-    const response = await fetch("http://localhost/point_of_sale_system/backend/api/products", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json"
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    const products = result.data;
-
-    productTableBody.innerHTML = "";
-
-    products.forEach(product => {
-      const row = document.createElement("tr");
-
-      row.id = `product-${product.id}`
-      let stockClass;
-      let stockText;
-
-      if (product.quantity === 0) {
-        stockClass = "out";
-        stockText = "Out Of Stock"
-      } else if (product.quantity <= product.reorder_level) {
-        stockClass = "low";
-        stockText = "Almost Out"
-      } else {
-        stockClass = "good";
-        stockText = "In Stock"
-      }
-
-      row.innerHTML = `
-        <td class="item">
-          <span class="thumb">
-            <img src="../..//point_of_sale_system/backend/${product.image}" alt="">
-          </span>
-          ${product.name}
-        </td>
-        <td>${product.category_name}</td>
-        <td>${product.sku}</td>
-        <td>${product.reorder_level}</td>
-        
-        <td>${product.quantity}</td>
-        <td>${product.status}</td>
-        <td>
-          <div class="tag ${stockClass}">
-            ${stockText}
-          </div>
-        </td>
-        <td>${formatDate(product.created_at)}</td>
-      `;
-
-      productTableBody.appendChild(row);
-    });
-
-  } catch (error) {
-    console.error("Error getting products:", error);
-
-    productTableBody.innerHTML = `
-      <tr>
-        <td colspan="5">Unable to load products.</td>
-      </tr>
-    `;
-  }
-}
-
-getProducts();
-
-const inventoryApiUrl = 'http://localhost/point_of_sale_system/backend/api/inventory';
+const inventoryApiUrl = '/point_of_sale_system/backend/api/getInventory';
 const inventoryTableBody = document.getElementById('inventory-table-body');
 const inventorySearch = document.getElementById('inventory-search');
 const supplierFilter = document.getElementById('inventory-supplier-filter');
 const statusFilter = document.getElementById('inventory-status-filter');
 let inventoryProducts = [];
 
-function stockClass(status) {
-  return status === 'Out of Stock' ? 'out' : status === 'Low Stock' ? 'low' : 'good';
+function getStockClass(quantity, reorderLevel) {
+  let stockClass;
+  if (quantity === 0) {
+
+        stockClass = "out";
+
+      } else if (quantity <= reorderLevel) {
+
+        stockClass = "low";
+
+      } else if (quantity <= reorderLevel + 10) {
+
+        stockClass = "low";
+
+      } else {
+
+        stockClass = "good";
+      }
+
+  return stockClass
 }
 
 function productInitials(name) {
@@ -111,7 +54,8 @@ function renderInventory() {
   });
 
   inventoryTableBody.innerHTML = filteredProducts.length
-    ? filteredProducts.map((product) => `<tr><td class="item"><span class="thumb">${productInitials(product.productName)}</span>${product.productName}<small>${product.sku}</small></td><td><b>${product.quantity} units</b></td><td>${product.reorderLevel} units</td><td>${product.supplierName || '—'}</td><td><span class="tag ${stockClass(product.stockStatus)}">${product.stockStatus}</span></td><td>Live inventory</td></tr>`).join('')
+    ? filteredProducts.map((product) =>`<tr><td class="item "><span class="thumb"><img src="../..//point_of_sale_system/backend/${product.image}" alt="${product.name}"/></span>${product.productName}</td><td>${product.categoryName}</td><td>${product.sku}</td><td>${product.reorderLevel}</td><td><b>${product.quantity} ${product.quantity > 1 ? "units" : "unit"}</b></td><td>${product.status}</td><td><span  class="tag ${getStockClass(product.quantity, product.reorderLevel)}">${product.stockStatus}</span></td><td>${formatDate(product.updated_at)}</td></tr>`).join('')
+    
     : '<tr><td colspan="6" class="empty-table">No inventory matches this filter.</td></tr>';
 }
 
